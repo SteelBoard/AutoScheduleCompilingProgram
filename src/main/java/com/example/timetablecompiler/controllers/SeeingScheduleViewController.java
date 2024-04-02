@@ -28,6 +28,7 @@ public class SeeingScheduleViewController implements Initializable {
             flowPane.getStylesheets().add(TimeTableCompilerUltimate.class.getResource("css/Schedule.css").toString());
             for (ArrayList<Lesson> lessons : schedule) {
 
+                flowPane.getChildren().add(new Label("День"));
                 for (Lesson lesson : lessons) {
 
                     flowPane.getChildren().add(new VBox(new Label(lesson.getSubject()), new Label(lesson.getTeacher())));
