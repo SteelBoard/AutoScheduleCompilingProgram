@@ -15,23 +15,35 @@ public class Schedule {
 
     public boolean checkRule(ArrayList<Rule> rulesList) {
 
-        boolean result = true;
+        if (rulesList == null || rulesList.isEmpty()) {
 
+            return true;
+        }
+
+        boolean result = true;
         for (Rule rule : rulesList) {
 
             result = result && rule.check(this);
         }
-
         return result;
     }
 
     public boolean checkRule(Rule rule) {
 
-        return rule.check(this);
+        if (rule == null) {
+
+            return true;
+        }
+        else {
+
+            return rule.check(this);
+        }
     }
 
     public Lesson[][] getLessonArray() {
 
         return this.lessonArray;
     }
+
+
 }

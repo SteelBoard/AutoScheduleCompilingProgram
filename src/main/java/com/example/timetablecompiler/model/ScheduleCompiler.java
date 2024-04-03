@@ -8,6 +8,7 @@ import static java.util.Collections.shuffle;
 
 public class ScheduleCompiler {
 
+    //
     public static ArrayList<ArrayList<Lesson>> compileInitialSchedule() {
 
         ArrayList<ArrayList<Lesson>> schedule = new ArrayList<>();
@@ -94,10 +95,15 @@ public class ScheduleCompiler {
                 for (String subject : shuffledList) {
 
                     schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject));
-                    if (schedule.checkRule(rules)) {
+                    if (schedule.checkRule(rules) &&
+                            Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
 
                         shuffledList.remove(subject);
                         break;
+                    }
+                    else {
+
+                        schedule.getLessonArray()[i][j] = null;
                     }
                 }
             }
@@ -114,11 +120,17 @@ public class ScheduleCompiler {
                         for (String subject : shuffledList) {
 
                             schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject));
-                            if (schedule.checkRule(rules)) {
+                            if (schedule.checkRule(rules)
+                                    && Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
 
                                 shuffledList.remove(subject);
                                 break;
                             }
+                            else {
+
+                                schedule.getLessonArray()[i][j] = null;
+                            }
+
                         }
                     }
                 }
@@ -133,5 +145,23 @@ public class ScheduleCompiler {
 
             return null;
         }
+    }
+
+    public static Schedule compileFinalSchedule(ArrayList<Rule> rules) {
+
+        Schedule schedule = new Schedule(new Lesson[5][8]);
+        List<String> shuffledList = getSubjectsInList(DbSubjectsData.getQuantityOfSubjects());
+        shuffle(shuffledList);
+        HashMap<String, String> subjects_teachers = DbSubjectsData.getSubjectWithTeachers();
+
+        for (int i = 0; i < 5; i++) {
+
+            for (int j = 0; j < 8; j++) {
+
+
+            }
+        }
+
+        return schedule;
     }
 }

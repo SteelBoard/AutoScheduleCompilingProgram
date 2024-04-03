@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
 import java.net.URL;
@@ -15,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
 
-    @FXML private FlowPane framePane;
+    @FXML private GridPane framePane;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

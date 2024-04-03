@@ -2,6 +2,7 @@ package com.example.timetablecompiler;
 
 import com.example.timetablecompiler.model.Lesson;
 import com.example.timetablecompiler.model.ScheduleCompiler;
+import com.example.timetablecompiler.util.TextFormatingUtil;
 import com.example.timetablecompiler.util.Views;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TimeTableCompilerUltimate extends Application {
 
@@ -27,11 +29,8 @@ public class TimeTableCompilerUltimate extends Application {
         TimeTableCompilerUltimate.stage = stage;
         stage.setTitle("Time Table Compiler Ultimate");
         switchToScene(Views.LOGIN);
-        stage.show();
-        for (ArrayList<Lesson> array : ScheduleCompiler.compileInitialSchedule()) {
 
-            System.out.println(array);
-        }
+        stage.show();
     }
 
     public static void switchToScene(Views view) {

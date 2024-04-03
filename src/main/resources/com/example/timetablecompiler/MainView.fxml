@@ -8,9 +8,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.control.Label?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.MainViewController">
+<?import javafx.geometry.Insets?>
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.MainViewController" minWidth="800">
     <columnConstraints>
-        <ColumnConstraints percentWidth="30"/>
+        <ColumnConstraints/>
         <ColumnConstraints/>
     </columnConstraints>
     <FlowPane GridPane.columnIndex="0" orientation="VERTICAL">
@@ -18,6 +19,10 @@
         <Button onAction="#clickToSeeSchedule" text="Просморт расписания"/>
         <Button text="Смена расписания"/>
     </FlowPane>
-    <FlowPane fx:id="framePane" GridPane.columnIndex="1"/>
+    <GridPane fx:id="framePane" GridPane.columnIndex="1">
+        <padding>
+            <Insets left="30"/>
+        </padding>
+    </GridPane>
 </GridPane>
 
