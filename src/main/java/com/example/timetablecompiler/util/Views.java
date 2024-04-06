@@ -4,9 +4,10 @@ public enum Views {
     LOGIN ("LoginView.fxml"),
     REGISTRATION("RegistrationView.fxml"),
     MAIN("MainView.fxml"),
-    SEEINGSCHEDULE("SeeingScheduleView.fxml");
+    SEEINGSCHEDULE("SeeingScheduleView.fxml"),
+    COMPILESCHEDULE("CompileScheduleView.fxml");
 
-    private String fileName;
+    private final String fileName;
 
     Views(String fileName) {
 

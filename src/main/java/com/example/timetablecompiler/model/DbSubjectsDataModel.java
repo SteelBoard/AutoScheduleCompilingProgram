@@ -1,17 +1,12 @@
 package com.example.timetablecompiler.model;
 
 import com.example.timetablecompiler.util.DbConnectionManager;
-import javafx.util.Pair;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.TreeMap;
 
-public class DbSubjectsData {
+public class DbSubjectsDataModel {
 
     public static HashMap<String, String> getSubjectWithTeachers() {
 

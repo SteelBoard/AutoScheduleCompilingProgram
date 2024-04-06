@@ -45,6 +45,6 @@ public class MainViewController implements Initializable {
     @FXML
     private void clickToCompileSchedule() {
 
-
+        switchToFrame(Views.COMPILESCHEDULE);
     }
 }

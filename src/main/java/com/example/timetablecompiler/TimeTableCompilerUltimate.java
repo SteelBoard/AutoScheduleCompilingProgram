@@ -1,16 +1,11 @@
 package com.example.timetablecompiler;
 
-import com.example.timetablecompiler.model.Lesson;
-import com.example.timetablecompiler.model.ScheduleCompiler;
-import com.example.timetablecompiler.util.TextFormatingUtil;
 import com.example.timetablecompiler.util.Views;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 public class TimeTableCompilerUltimate extends Application {
 
@@ -24,7 +19,7 @@ public class TimeTableCompilerUltimate extends Application {
     public static void main(String[] args) { launch(); }
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
 
         TimeTableCompilerUltimate.stage = stage;
         stage.setTitle("Time Table Compiler Ultimate");

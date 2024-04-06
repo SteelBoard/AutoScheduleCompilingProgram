@@ -1,17 +1,13 @@
 package com.example.timetablecompiler.controllers;
 
-import com.example.timetablecompiler.TimeTableCompilerUltimate;
-import com.example.timetablecompiler.model.Lesson;
 import com.example.timetablecompiler.model.Schedule;
-import com.example.timetablecompiler.model.ScheduleCompiler;
 import com.example.timetablecompiler.util.TextFormatingUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
@@ -25,7 +21,7 @@ public class SeeingScheduleViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Schedule schedule = ScheduleCompiler.compileFullSchedule(new ArrayList<>());
+        Schedule schedule = Schedule.generate(new ArrayList<>());
 
         Platform.runLater(() -> {
 
