@@ -10,7 +10,8 @@
     <TextField fx:id="loginField"/>
     <Label text="Пароль"/>
     <PasswordField fx:id="passwordField"/>
-    <Label text="Нет аккаунта?"/>
     <Button text="Войти" onAction="#clickToLogin"/>
+    <Label text="Нет аккаунта?"/>
     <Hyperlink text="Зарегистрироваться" onAction="#clickToRegistrationWindow"/>
+    <Button onAction="#clickToQuit" text="Выйти из приложения"/>
 </FlowPane>

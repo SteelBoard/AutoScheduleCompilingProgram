@@ -37,6 +37,7 @@ public class RegistrationViewController implements Initializable {
         else {
 
             DbRegistrationLoginModel.registryUser(login, password);
+            TimeTableCompilerUltimate.setCurrentUser(DbRegistrationLoginModel.getUser(login));
             dataWrongLabel.setText("");
             TimeTableCompilerUltimate.switchToScene(Views.MAIN);
         }
@@ -46,5 +47,11 @@ public class RegistrationViewController implements Initializable {
     private void clickToLoginWindow() {
 
         TimeTableCompilerUltimate.switchToScene(Views.LOGIN);
+    }
+
+    @FXML
+    private void clickToQuit() {
+
+        TimeTableCompilerUltimate.getInstanceOfStage().close();
     }
 }

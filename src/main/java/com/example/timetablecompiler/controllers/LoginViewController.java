@@ -42,6 +42,7 @@ public class LoginViewController implements Initializable {
         else {
 
             dataWrongLabel.setText("");
+            TimeTableCompilerUltimate.setCurrentUser(DbRegistrationLoginModel.getUser(login));
             TimeTableCompilerUltimate.switchToScene(Views.MAIN);
         }
     }
@@ -50,5 +51,11 @@ public class LoginViewController implements Initializable {
     private void clickToRegistrationWindow() {
 
         TimeTableCompilerUltimate.switchToScene(Views.REGISTRATION);
+    }
+
+    @FXML
+    private void clickToQuit() {
+
+        TimeTableCompilerUltimate.getInstanceOfStage().close();
     }
 }

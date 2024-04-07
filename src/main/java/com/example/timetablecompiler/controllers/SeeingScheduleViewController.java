@@ -1,27 +1,36 @@
 package com.example.timetablecompiler.controllers;
 
+import com.example.timetablecompiler.model.Classes;
+import com.example.timetablecompiler.model.DbScheduleDataModel;
 import com.example.timetablecompiler.model.Schedule;
 import com.example.timetablecompiler.util.TextFormatingUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 import javafx.scene.layout.VBox;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SeeingScheduleViewController implements Initializable {
 
     @FXML private GridPane gridPane;
+    @FXML private ChoiceBox<String> classChoice;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Schedule schedule = Schedule.generate(new ArrayList<>());
+        classChoice.getItems().addAll("10А", "10Б");
+
+        classChoice.valueProperty().addListener((observableValue, oldValue, newValue)
+                -> outputSchedule(DbScheduleDataModel.getSchedule(Classes.getGradeByString(newValue))));
+    }
+
+    public void outputSchedule(Schedule schedule) {
 
         Platform.runLater(() -> {
 

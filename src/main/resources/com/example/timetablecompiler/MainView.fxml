@@ -18,6 +18,8 @@
         <Label text="Опции"/>
         <Button onAction="#clickToSeeSchedule" text="Просмотр расписания"/>
         <Button onAction="#clickToCompileSchedule" text="Составление расписания"/>
+        <Button onAction="#clickToLogOut" text="Выйти из аккаунта"/>
+        <Button onAction="#clickToQuit" text="Выйти из программы"/>
     </FlowPane>
     <GridPane fx:id="framePane" GridPane.columnIndex="1">
         <padding>

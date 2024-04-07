@@ -1,5 +1,6 @@
 package com.example.timetablecompiler;
 
+import com.example.timetablecompiler.model.User;
 import com.example.timetablecompiler.util.Views;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +11,7 @@ import java.io.IOException;
 public class TimeTableCompilerUltimate extends Application {
 
     private static Stage stage;
-
-    public static Stage getInstanceOfStage() {
-
-        return TimeTableCompilerUltimate.stage;
-    }
+    private static User currentUser;
 
     public static void main(String[] args) { launch(); }
 
@@ -39,5 +36,20 @@ public class TimeTableCompilerUltimate extends Application {
 
             throw new RuntimeException();
         }
+    }
+
+    public static Stage getInstanceOfStage() {
+
+        return stage;
+    }
+
+    public static User getCurrentUser() {
+
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User user) {
+
+        currentUser = user;
     }
 }

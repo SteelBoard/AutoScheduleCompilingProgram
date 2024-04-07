@@ -18,6 +18,11 @@ public class Schedule {
         this.lessonArray = lessonList;
     }
 
+    public Schedule() {
+
+        this.lessonArray = new Lesson[5][8];
+    }
+
     public static Schedule generate(ArrayList<Rule> rules) {
 
         Schedule schedule = new Schedule(new Lesson[5][8]);

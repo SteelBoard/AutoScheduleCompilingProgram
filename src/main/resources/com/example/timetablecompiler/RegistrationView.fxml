@@ -17,5 +17,6 @@
     <Button text="Зарегистрироваться" onAction="#clickToRegistry"/>
     <Label text="Уже есть аккаунт?"/>
     <Hyperlink text="Войти" onAction="#clickToLoginWindow"/>
+    <Button onAction="#clickToQuit" text="Выйти из приложения"/>
 </FlowPane>
 

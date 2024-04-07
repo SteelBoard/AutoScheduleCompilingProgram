@@ -29,7 +29,7 @@
         <RowConstraints />
         <RowConstraints />
     </rowConstraints>
-
+    <ChoiceBox fx:id="classChoice" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
     <Label text="8:00-8:40" GridPane.columnIndex="0" GridPane.rowIndex="2" />
     <Label text="8:50-9:30" GridPane.columnIndex="0" GridPane.rowIndex="3" />
     <Label text="9:50-10:30" GridPane.columnIndex="0" GridPane.rowIndex="4" />

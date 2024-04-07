@@ -1,24 +1,33 @@
 package com.example.timetablecompiler.model;
 
+import java.util.ArrayList;
+
 public enum Weekdays {
 
-    MONDAY("Понедельник"),
-    TUESDAY("Вторник"),
-    WEDNESDDAY("Среда"),
-    THURSDAY("Четверг"),
-    FRIDAY("Пятница"),
-    SATURDAY("Суббота"),
-    SUNDAY("Воскресенье");
+    MONDAY("Понедельник",1),
+    TUESDAY("Вторник", 2),
+    WEDNESDDAY("Среда", 3),
+    THURSDAY("Четверг", 4),
+    FRIDAY("Пятница", 5),
+    SATURDAY("Суббота", 6),
+    SUNDAY("Воскресенье", 7);
 
     private final String name;
-    Weekdays(String name) {
+    private final Integer number;
+    Weekdays(String name, int num) {
 
         this.name = name;
+        this.number = num;
     }
 
     public String getName() {
 
         return this.name;
+    }
+
+    public Integer getNumber() {
+
+        return this.number;
     }
 
     public static Weekdays getWeekdayByNumber(int num) {
@@ -32,6 +41,20 @@ public enum Weekdays {
             case 5 -> FRIDAY;
             case 6 -> SATURDAY;
             case 7 -> SUNDAY;
+            default -> null;
+        };
+    }
+
+    public static Weekdays getWeekdayByName(String name) {
+
+        return switch (name) {
+            case "Понедельник" -> MONDAY;
+            case "Вторник" -> MONDAY;
+            case "Среда" -> MONDAY;
+            case "Четверг" -> MONDAY;
+            case "Пятница" -> MONDAY;
+            case "Суббота" -> MONDAY;
+            case "Воскресенье" -> MONDAY;
             default -> null;
         };
     }

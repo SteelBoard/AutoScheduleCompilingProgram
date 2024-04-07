@@ -1,5 +1,12 @@
 package com.example.timetablecompiler.util;
 
+import com.example.timetablecompiler.model.DbSubjectsDataModel;
+import com.example.timetablecompiler.model.Lesson;
+import com.example.timetablecompiler.model.Schedule;
+import com.example.timetablecompiler.model.Weekdays;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;

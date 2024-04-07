@@ -6,6 +6,28 @@ import java.sql.*;
 
 public class DbRegistrationLoginModel {
 
+    public static User getUser(String login) {
+
+        try (var connection = DbConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement("SELECT admin FROM users WHERE login = ?")) {
+
+            statement.setString(1, login);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+
+                return new User(login, resultSet.getBoolean("admin"));
+            }
+            else {
+
+                return null;
+            }
+        }
+        catch (SQLException ex) {
+
+            throw new RuntimeException();
+        }
+    }
+
     public static boolean isPasswordCorrect(String login, String password) {
 
         try (var connection = DbConnectionManager.open();
@@ -45,7 +67,7 @@ public class DbRegistrationLoginModel {
         }
     }
 
-    public static void registryUser(String login, String password) {
+    public static User registryUser(String login, String password) {
 
         try (var connection = DbConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement("INSERT INTO users (login, hashPassword, salt) VALUES (?, ?, ?)")) {
@@ -56,6 +78,8 @@ public class DbRegistrationLoginModel {
             statement.setString(3, salt);
 
             statement.executeUpdate();
+
+            return new User(login, false);
         }
         catch (SQLException ex) {
 

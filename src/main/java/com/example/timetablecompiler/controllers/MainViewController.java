@@ -47,4 +47,17 @@ public class MainViewController implements Initializable {
 
         switchToFrame(Views.COMPILESCHEDULE);
     }
+
+    @FXML
+    private void clickToLogOut() {
+
+        TimeTableCompilerUltimate.setCurrentUser(null);
+        TimeTableCompilerUltimate.switchToScene(Views.LOGIN);
+    }
+
+    @FXML
+    private void clickToQuit() {
+
+        TimeTableCompilerUltimate.getInstanceOfStage().close();
+    }
 }
