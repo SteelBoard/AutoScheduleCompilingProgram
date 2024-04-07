@@ -36,8 +36,7 @@ public class RegistrationViewController implements Initializable {
         }
         else {
 
-            DbRegistrationLoginModel.registryUser(login, password);
-            TimeTableCompilerUltimate.setCurrentUser(DbRegistrationLoginModel.getUser(login));
+            TimeTableCompilerUltimate.setCurrentUser(DbRegistrationLoginModel.registryUser(login, password));
             dataWrongLabel.setText("");
             TimeTableCompilerUltimate.switchToScene(Views.MAIN);
         }
