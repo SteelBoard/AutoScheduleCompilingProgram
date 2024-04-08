@@ -1,7 +1,6 @@
 package com.example.timetablecompiler.controllers;
 
-import com.example.timetablecompiler.model.DbScheduleDataModel;
-import com.example.timetablecompiler.model.Schedule;
+import com.example.timetablecompiler.model.*;
 import com.example.timetablecompiler.util.TextFormatingUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -17,34 +16,99 @@ import java.util.ResourceBundle;
 public class CompileScheduleViewController implements Initializable {
 
     @FXML private GridPane gridPane;
+    private Schedule currentSchedule;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
+        addWeekdays();
     }
 
     @FXML
     private void clickToGenerateSchedule() {
 
-        Schedule schedule = Schedule.generate(new ArrayList<>());
+        deleteCurrentSchedule();
+        currentSchedule = Schedule.generate(new ArrayList<>());
 
         Platform.runLater(() -> {
 
-            assert schedule != null;
-            if (schedule.getLessonArray() != null) {
+            assert currentSchedule != null;
+            if (currentSchedule.getLessonArray() != null) {
 
                 for (int i = 2; i < 7; i++) {
 
                     for (int j = 1; j < 9; j++) {
 
-                        if (schedule.getLessonArray()[i-2][j-1] != null) {
+                        if (currentSchedule.getLessonArray()[i-2][j-1] != null) {
 
-                            gridPane.add(new VBox(new Label(schedule.getLessonArray()[i-2][j-1].getSubject()),
-                                    new Label(TextFormatingUtil.formatTeacherName(schedule.getLessonArray()[i-2][j-1].getTeacher()))), i-1, j+1);
+                            gridPane.add(new VBox(new Label(currentSchedule.getLessonArray()[i-2][j-1].getSubject()),
+                                    new Label(TextFormatingUtil.formatTeacherName(currentSchedule.getLessonArray()[i-2][j-1].getTeacher())),
+                                    new Label(currentSchedule.getLessonArray()[i-2][j-1].getClassroom().toString())), i-1, j+1);
                         }
                     }
                 }
+            }
+        });
+    }
+
+    @FXML
+    private void clickToLoadForA() {
+
+        if (currentSchedule == null) {
+
+            return;
+        }
+
+        DbScheduleDataModel.deleteSchedule(Classes.A);
+        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.A);
+    }
+
+    @FXML
+    private void clickToLoadForB() {
+
+        if (currentSchedule == null) {
+
+            return;
+        }
+
+        DbScheduleDataModel.deleteSchedule(Classes.B);
+        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.B);
+    }
+
+    @FXML
+    private void clickToDeleteForA() {
+
+        DbScheduleDataModel.deleteSchedule(Classes.A);
+    }
+
+    @FXML
+    private void clickToDeleteForB() {
+
+        DbScheduleDataModel.deleteSchedule(Classes.B);
+    }
+
+    public void deleteCurrentSchedule() {
+
+        Platform.runLater(() -> {
+
+            gridPane.getChildren().removeIf(node ->
+                    (GridPane.getColumnIndex(node) >= 1 && GridPane.getColumnIndex(node) <= 6) &&
+                            (GridPane.getRowIndex(node) >= 2 && GridPane.getRowIndex(node) <= 9));
+        });
+    }
+
+    public void addWeekdays() {
+
+        Platform.runLater(() -> {
+
+            for (int i = 1; i < 6; i++) {
+
+                gridPane.add(new Label(Weekdays.getWeekdayByNumber(i).getName()), i, 1);
+            }
+
+            for (int i = 2; i < 10; i++) {
+
+                gridPane.add(new Label(LessonTimes.getLessonTimeByNumber(i-1).getTime()), 0, i);
             }
         });
     }

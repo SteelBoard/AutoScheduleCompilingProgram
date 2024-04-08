@@ -49,12 +49,12 @@ public enum Weekdays {
 
         return switch (name) {
             case "Понедельник" -> MONDAY;
-            case "Вторник" -> MONDAY;
-            case "Среда" -> MONDAY;
-            case "Четверг" -> MONDAY;
-            case "Пятница" -> MONDAY;
-            case "Суббота" -> MONDAY;
-            case "Воскресенье" -> MONDAY;
+            case "Вторник" -> TUESDAY;
+            case "Среда" -> WEDNESDDAY;
+            case "Четверг" -> THURSDAY;
+            case "Пятница" -> FRIDAY;
+            case "Суббота" -> SATURDAY;
+            case "Воскресенье" -> SUNDAY;
             default -> null;
         };
     }

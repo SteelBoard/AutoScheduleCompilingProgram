@@ -5,10 +5,11 @@ public class Lesson {
     private String subject, teacher;
     private Integer classroom;
 
-    public Lesson(String subject, String teacher) {
+    public Lesson(String subject, String teacher, Integer classroom) {
 
         this.subject = subject;
         this.teacher = teacher;
+        this.classroom = classroom;
     }
     public Lesson() {
 

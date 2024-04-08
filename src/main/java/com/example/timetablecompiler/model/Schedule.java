@@ -1,6 +1,7 @@
 package com.example.timetablecompiler.model;
 
 import com.example.timetablecompiler.model.rules.Rule;
+import com.example.timetablecompiler.util.DbConnectionManager;
 import com.example.timetablecompiler.util.TransformUtil;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class Schedule {
         List<String> shuffledList = TransformUtil.HashMapOfSubjectToArrayList(DbSubjectsDataModel.getQuantityOfSubjects());
         shuffle(shuffledList);
         HashMap<String, String> subjects_teachers = DbSubjectsDataModel.getSubjectWithTeachers();
+        HashMap<String, Integer> subjects_classrooms = DbSubjectsDataModel.getClassrooms();
 
 
         for (int i = 0; i < schedule.getLessonArray().length; i++) {
@@ -37,7 +39,7 @@ public class Schedule {
 
                 for (String subject : shuffledList) {
 
-                    schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject));
+                    schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject), subjects_classrooms.get(subject));
                     if (schedule.checkRule(rules) &&
                             Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
 
@@ -62,7 +64,7 @@ public class Schedule {
 
                         for (String subject : shuffledList) {
 
-                            schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject));
+                            schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject), subjects_classrooms.get(subject));
                             if (schedule.checkRule(rules)
                                     && Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
 

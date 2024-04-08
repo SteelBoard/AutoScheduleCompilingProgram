@@ -12,9 +12,10 @@ public class DbScheduleDataModel {
 
         Schedule schedule = new Schedule();
         HashMap<String, String> subject_teachers = DbSubjectsDataModel.getSubjectWithTeachers();
+        HashMap<String, Integer> subject_classroom = DbSubjectsDataModel.getClassrooms();
 
         try (var connection = DbConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement("SELECT FROM schedule WHERE grade = ?")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM schedule WHERE grade = ?")) {
 
             statement.setString(1, grade.getGrade());
             ResultSet resultSet = statement.executeQuery();
@@ -24,7 +25,9 @@ public class DbScheduleDataModel {
                 schedule.getLessonArray()
                         [Weekdays.getWeekdayByName(resultSet.getString("weekday")).getNumber()-1]
                         [resultSet.getInt("lessonnumber")-1] =
-                        new Lesson(resultSet.getString("subject"), subject_teachers.get(resultSet.getString("subject")));
+                        new Lesson(resultSet.getString("subject"),
+                                subject_teachers.get(resultSet.getString("subject")),
+                                subject_classroom.get(resultSet.getString("subject")));
             }
 
             return schedule;
@@ -55,7 +58,7 @@ public class DbScheduleDataModel {
                     if (schedule.getLessonArray()[i][j] != null) {
 
                         statement.setString(1, grade.getGrade());
-                        statement.setString(2, Weekdays.getWeekdayByNumber(i).getName());
+                        statement.setString(2, Weekdays.getWeekdayByNumber(i+1).getName());
                         statement.setInt(3, j+1);
                         statement.setString(4, schedule.getLessonArray()[i][j].getSubject());
                         statement.addBatch();

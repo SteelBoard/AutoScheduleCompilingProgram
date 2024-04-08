@@ -1,8 +1,6 @@
 package com.example.timetablecompiler.controllers;
 
-import com.example.timetablecompiler.model.Classes;
-import com.example.timetablecompiler.model.DbScheduleDataModel;
-import com.example.timetablecompiler.model.Schedule;
+import com.example.timetablecompiler.model.*;
 import com.example.timetablecompiler.util.TextFormatingUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,43 +8,76 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
-
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class SeeingScheduleViewController implements Initializable {
 
     @FXML private GridPane gridPane;
     @FXML private ChoiceBox<String> classChoice;
+    private Schedule currentSchedule;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        classChoice.getItems().addAll("10А", "10Б");
+        addWeekdays();
 
-        classChoice.valueProperty().addListener((observableValue, oldValue, newValue)
-                -> outputSchedule(DbScheduleDataModel.getSchedule(Classes.getGradeByString(newValue))));
+        classChoice.getItems().addAll("10А", "10Б");
+        classChoice.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+
+            currentSchedule = DbScheduleDataModel.getSchedule(Classes.getGradeByString(newValue));
+            outputSchedule();
+        });
     }
 
-    public void outputSchedule(Schedule schedule) {
+    public void outputSchedule() {
 
+        deleteCurrentSchedule();
         Platform.runLater(() -> {
 
-            if (schedule.getLessonArray() != null) {
+            if (currentSchedule.getLessonArray() != null) {
 
-                for (int i = 2; i < 7; i++) {
+                for (int i = 0; i < 5; i++) {
 
-                    for (int j = 1; j < 9; j++) {
+                    for (int j = 0; j < 8; j++) {
 
-                        if (schedule.getLessonArray()[i-2][j-1] != null) {
+                        if (currentSchedule.getLessonArray()[i][j] != null) {
 
-                            gridPane.add(new VBox(new Label(schedule.getLessonArray()[i-2][j-1].getSubject()),
-                                    new Label(TextFormatingUtil.formatTeacherName(schedule.getLessonArray()[i-2][j-1].getTeacher()))), i-1, j+1);
+                            gridPane.add(new VBox(new Label(currentSchedule.getLessonArray()[i][j].getSubject()),
+                                    new Label(currentSchedule.getLessonArray()[i][j].getTeacher()),
+                                    new Label(currentSchedule.getLessonArray()[i][j].getClassroom().toString())), i+1, j+1);
                         }
                     }
                 }
+            }
+        });
+    }
+
+    public void deleteCurrentSchedule() {
+
+        Platform.runLater(() -> {
+
+            gridPane.getChildren().removeIf(node ->
+                    (GridPane.getColumnIndex(node) >= 1 && GridPane.getColumnIndex(node) <= 6) &&
+                            (GridPane.getRowIndex(node) >= 1 && GridPane.getRowIndex(node) <= 8));
+        });
+    }
+
+    public void addWeekdays() {
+
+        Platform.runLater(() -> {
+
+            for (int i = 1; i < 6; i++) {
+
+                gridPane.add(new Label(Weekdays.getWeekdayByNumber(i).getName()), i, 0);
+            }
+
+            for (int i = 1; i < 9; i++) {
+
+                gridPane.add(new Label(LessonTimes.getLessonTimeByNumber(i).getTime()), 0, i);
             }
         });
     }

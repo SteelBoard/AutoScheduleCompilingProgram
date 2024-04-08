@@ -54,4 +54,25 @@ public class DbSubjectsDataModel {
            throw new RuntimeException();
         }
     }
+
+    public static HashMap<String, Integer> getClassrooms() {
+
+        try (var connection = DbConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement("SELECT name, classroom FROM subjects")) {
+
+            ResultSet resultSet = statement.executeQuery();
+            HashMap<String, Integer> subjects_classrooms = new HashMap<>();
+
+            while (resultSet.next()) {
+
+                subjects_classrooms.put(resultSet.getString("name"), resultSet.getInt("classroom"));
+            }
+
+            return subjects_classrooms;
+        }
+        catch (SQLException ex) {
+
+            throw new RuntimeException();
+        }
+    }
 }
