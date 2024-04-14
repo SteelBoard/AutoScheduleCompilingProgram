@@ -1,0 +1,23 @@
+.button {
+
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-max-width: Infinity;
+    -fx-min-height: 70px;
+}
+
+.button:hover {
+
+    -fx-background-color: #DDDDDD;
+}
+
+.button > .label {
+
+    
+}
+
+.separator {
+
+    -fx-color: black;
+}
+
