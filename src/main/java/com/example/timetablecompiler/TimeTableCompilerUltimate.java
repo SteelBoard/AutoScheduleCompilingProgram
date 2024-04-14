@@ -21,6 +21,7 @@ public class TimeTableCompilerUltimate extends Application {
         TimeTableCompilerUltimate.stage = stage;
         stage.setTitle("Time Table Compiler Ultimate");
         switchToScene(Views.LOGIN);
+    
 
         stage.show();
     }

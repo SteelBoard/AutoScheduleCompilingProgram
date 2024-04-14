@@ -1,3 +1,12 @@
-.grid-pane .label {
-    -fx-text-fill: orange;
+.grid-pane {
+
+    -fx-grid-lines-visible: true;
+    -fx-grid-line-color: black;
+}
+
+.grid-pane > * {
+
+    -fx-min-width: 140px;
+    -fx-min-height: 57px;
+    -fx-alignment: center;
 }

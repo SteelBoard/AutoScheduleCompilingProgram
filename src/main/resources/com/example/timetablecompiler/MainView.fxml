@@ -9,18 +9,19 @@
 <?import javafx.scene.control.Label?>
 
 <?import javafx.geometry.Insets?>
-<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.MainViewController" minWidth="850">
+<?import javafx.scene.control.Separator?>
+<GridPane xmlns:fx="http://javafx.com/fxml" stylesheets="@css/MainStyle.css" fx:controller="com.example.timetablecompiler.controllers.MainViewController" minWidth="1050" minHeight="600">
     <columnConstraints>
         <ColumnConstraints/>
         <ColumnConstraints/>
     </columnConstraints>
-    <FlowPane GridPane.columnIndex="0" orientation="VERTICAL">
-        <Label text="Опции"/>
+    <FlowPane GridPane.columnIndex="0" orientation="VERTICAL" styleClass="container">
         <Button onAction="#clickToSeeSchedule" text="Просмотр расписания"/>
         <Button onAction="#clickToCompileSchedule" text="Составление расписания"/>
         <Button onAction="#clickToLogOut" text="Выйти из аккаунта"/>
         <Button onAction="#clickToQuit" text="Выйти из программы"/>
     </FlowPane>
+    <Separator GridPane.columnIndex="1" orientation="VERTICAL"/>
     <GridPane fx:id="framePane" GridPane.columnIndex="1">
         <padding>
             <Insets left="30"/>

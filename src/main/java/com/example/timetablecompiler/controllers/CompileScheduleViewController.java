@@ -5,9 +5,11 @@ import com.example.timetablecompiler.util.TextFormatingUtil;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class CompileScheduleViewController implements Initializable {
 
     @FXML private GridPane gridPane;
     private Schedule currentSchedule;
+    private Boolean isRulesCompilerShowing = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -111,5 +114,11 @@ public class CompileScheduleViewController implements Initializable {
                 gridPane.add(new Label(LessonTimes.getLessonTimeByNumber(i-1).getTime()), 0, i);
             }
         });
+    }
+
+    public void openRulesCompiler() {
+
+        Stage rulesCompilerStage = new Stage();
+
     }
 }

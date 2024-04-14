@@ -47,7 +47,7 @@ public class SeeingScheduleViewController implements Initializable {
                         if (currentSchedule.getLessonArray()[i][j] != null) {
 
                             gridPane.add(new VBox(new Label(currentSchedule.getLessonArray()[i][j].getSubject()),
-                                    new Label(currentSchedule.getLessonArray()[i][j].getTeacher()),
+                                    new Label(TextFormatingUtil.formatTeacherName(currentSchedule.getLessonArray()[i][j].getTeacher())),
                                     new Label(currentSchedule.getLessonArray()[i][j].getClassroom().toString())), i+1, j+1);
                         }
                     }
@@ -60,9 +60,12 @@ public class SeeingScheduleViewController implements Initializable {
 
         Platform.runLater(() -> {
 
-            gridPane.getChildren().removeIf(node ->
-                    (GridPane.getColumnIndex(node) >= 1 && GridPane.getColumnIndex(node) <= 6) &&
-                            (GridPane.getRowIndex(node) >= 1 && GridPane.getRowIndex(node) <= 8));
+            gridPane.getChildren().removeIf(node -> {
+                Integer columnIndex = GridPane.getColumnIndex(node);
+                Integer rowIndex = GridPane.getRowIndex(node);
+                return (columnIndex != null && columnIndex >= 1 && columnIndex <= 6) &&
+                        (rowIndex != null && rowIndex >= 1 && rowIndex <= 8);
+            });
         });
     }
 
