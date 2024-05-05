@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import java.net.URL;
+import java.sql.Time;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
 
@@ -16,7 +17,6 @@ public class MainViewController implements Initializable {
 
     @FXML private GridPane gridPane;
     @FXML private GridPane framePane;
-    private Button selectedButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -47,7 +47,10 @@ public class MainViewController implements Initializable {
     @FXML
     private void clickToCompileSchedule() {
 
-        switchToFrame(Views.COMPILESCHEDULE);
+        if (TimeTableCompilerUltimate.getCurrentUser().isAdmin()) {
+
+            switchToFrame(Views.COMPILESCHEDULE);
+        }
     }
 
     @FXML

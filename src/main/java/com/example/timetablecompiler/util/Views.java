@@ -5,7 +5,9 @@ public enum Views {
     REGISTRATION("RegistrationView.fxml"),
     MAIN("MainView.fxml"),
     SEEINGSCHEDULE("SeeingScheduleView.fxml"),
-    COMPILESCHEDULE("CompileScheduleView.fxml");
+    COMPILESCHEDULE("CompileScheduleView.fxml"),
+    RULECOMPILE("RulesCompilerView.fxml"),
+    ADDINGOPTIONAL("AddingOptionalView.fxml");
 
     private final String fileName;
 

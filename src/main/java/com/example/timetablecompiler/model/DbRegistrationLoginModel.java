@@ -70,7 +70,7 @@ public class DbRegistrationLoginModel {
     public static User registryUser(String login, String password) {
 
         try (var connection = DbConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement("INSERT INTO users (login, hashPassword, salt) VALUES (?, ?, ?)")) {
+             PreparedStatement statement = connection.prepareStatement("INSERT INTO users (login, hashPassword, salt, admin) VALUES (?, ?, ?, falseSS)")) {
 
             String salt = BCrypt.gensalt();
             statement.setString(1, login);

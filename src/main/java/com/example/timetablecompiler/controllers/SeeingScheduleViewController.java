@@ -33,7 +33,7 @@ public class SeeingScheduleViewController implements Initializable {
         });
     }
 
-    public void outputSchedule() {
+    private void outputSchedule() {
 
         deleteCurrentSchedule();
         Platform.runLater(() -> {
@@ -56,7 +56,7 @@ public class SeeingScheduleViewController implements Initializable {
         });
     }
 
-    public void deleteCurrentSchedule() {
+    private void deleteCurrentSchedule() {
 
         Platform.runLater(() -> {
 
@@ -69,7 +69,7 @@ public class SeeingScheduleViewController implements Initializable {
         });
     }
 
-    public void addWeekdays() {
+    private void addWeekdays() {
 
         Platform.runLater(() -> {
 

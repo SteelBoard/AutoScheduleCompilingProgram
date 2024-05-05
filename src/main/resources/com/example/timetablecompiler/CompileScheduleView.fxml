@@ -6,30 +6,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane stylesheets="@css/Schedule.css" styleClass="grid-pane" fx:id="gridPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.CompileScheduleViewController">
-    <columnConstraints>
-        <ColumnConstraints />
-        <ColumnConstraints />
-        <ColumnConstraints />
-        <ColumnConstraints />
-        <ColumnConstraints />
-        <ColumnConstraints />
-    </columnConstraints>
+<GridPane stylesheets="@css/CompileScheduleStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.CompileScheduleViewController">
     <rowConstraints>
         <RowConstraints />
         <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
-        <RowConstraints />
     </rowConstraints>
-    <FlowPane GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="6">
-        <Button text="Добавить правила"/>
-        <Label text="Добавлено правил: 0"/>
+    <FlowPane GridPane.rowIndex="0" >
+        <Button onAction="#clickToCompileRules" text="Добавить правила" />
+        <Label fx:id="numberOfRulesLabel" text="Добавлено правил: 0"/>
+        <Button onAction="#clickToDeleteRules" text="Удалить текущие правила"/>
         <Button onAction="#clickToGenerateSchedule" GridPane.columnIndex="0" GridPane.rowIndex="0" text="Сгенерировать"/>
         <Label text="Загрузить для:"/>
         <Button onAction="#clickToLoadForA" text="10А"/>
@@ -37,5 +22,30 @@
         <Label text="Удалить для:"/>
         <Button onAction="#clickToDeleteForA" text="10А"/>
         <Button onAction="#clickToDeleteForB" text="10Б"/>
+        <Button onAction="#clickToAddOptional" text="Добавить факультатив" />
+        <Label text="Вывести текущее для:"/>
+        <Button onAction="#clickToOutputA" text="10A"/>
+        <Button onAction="#clickToOutputB" text="10Б"/>
     </FlowPane>
+    <GridPane GridPane.rowIndex="1" stylesheets="@css/Schedule.css" styleClass="grid-pane" fx:id="gridPane">
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
+    </GridPane>
 </GridPane>

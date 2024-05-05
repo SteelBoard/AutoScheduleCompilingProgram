@@ -6,7 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import java.io.IOException;
+
 
 public class TimeTableCompilerUltimate extends Application {
 
@@ -21,7 +21,6 @@ public class TimeTableCompilerUltimate extends Application {
         TimeTableCompilerUltimate.stage = stage;
         stage.setTitle("Time Table Compiler Ultimate");
         switchToScene(Views.LOGIN);
-    
 
         stage.show();
     }

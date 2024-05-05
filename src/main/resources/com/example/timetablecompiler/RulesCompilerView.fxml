@@ -6,8 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.RulesCompilerViewController">
+<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.RulesCompilerViewController"
+          prefHeight="400" prefWidth="600" alignment="CENTER">
     <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
         <RowConstraints/>
         <RowConstraints/>
         <RowConstraints/>
@@ -22,5 +25,7 @@
     <ChoiceBox GridPane.rowIndex="3"/>
     <ChoiceBox GridPane.rowIndex="4"/>
     <ChoiceBox GridPane.rowIndex="5"/>
+    <Label fx:id="wrongDataLabel" GridPane.rowIndex="6"/>
+    <Button onAction="#clickToSaveRules" text="Сохранить" GridPane.rowIndex="7"/>
 
 </GridPane>
