@@ -4,6 +4,7 @@ import com.example.timetablecompiler.model.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.net.URL;
@@ -13,6 +14,7 @@ public class AddingOptionalViewController implements Initializable {
 
     @FXML private TextField name;
     @FXML private ChoiceBox<String> weekDay, lessonNumber, teacher, classroom;
+    @FXML private Label wrongDataLabel;
     private Stage stage;
     private CompileScheduleViewController initialController;
     private Schedule currentSchedule;
@@ -60,11 +62,22 @@ public class AddingOptionalViewController implements Initializable {
                 teacher.getValue() != null && !teacher.getValue().equals("<Не выбрано>") &&
                 classroom.getValue() != null && !classroom.getValue().equals("<Не выбрано>");
     }
+    private Boolean checkUniqueName() {
+
+        return DbSubjectsDataModel.getQuantityOfSubjects().containsKey(name.getText().replaceAll(" ", ""));
+    }
+
     @FXML
     private void clickToSaveOptional() {
 
         if (!checkFields()) {
 
+            wrongDataLabel.setText("Заполните все поля");
+            return;
+        }
+        else if (checkUniqueName()) {
+
+            wrongDataLabel.setText("Такой предмет уже существует");
             return;
         }
 

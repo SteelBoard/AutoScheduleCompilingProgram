@@ -51,6 +51,10 @@ public class MainViewController implements Initializable {
 
             switchToFrame(Views.COMPILESCHEDULE);
         }
+        else {
+
+            switchToFrame(Views.NOTALLOWED);
+        }
     }
 
     @FXML

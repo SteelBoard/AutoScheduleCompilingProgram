@@ -21,7 +21,7 @@ public class SequenceRule extends Rule{
 
             for (int j = 0; j < schedule.getLessonArray()[i].length; j++) {
 
-                if (schedule.getLessonArray()[i][j].getSubject().equals(sequence.get(counter))) {
+                if (schedule.getLessonArray()[i][j] != null && schedule.getLessonArray()[i][j].getSubject().equals(sequence.get(counter))) {
 
                     while ( j+counter != 8 && schedule.getLessonArray()[i][j+counter] != null) {
 

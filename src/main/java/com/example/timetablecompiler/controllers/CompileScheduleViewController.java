@@ -6,18 +6,16 @@ import com.example.timetablecompiler.model.rules.Rule;
 import com.example.timetablecompiler.util.TextFormatingUtil;
 import com.example.timetablecompiler.util.Views;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,6 +25,7 @@ public class CompileScheduleViewController implements Initializable {
 
     @FXML private GridPane gridPane;
     @FXML private Label numberOfRulesLabel;
+    private Stage rulesCompilerStage;
     private Schedule currentSchedule;
     private Boolean isRulesCompilerShowing;
     private Boolean isAddingOptionalOpen;
@@ -96,7 +95,7 @@ public class CompileScheduleViewController implements Initializable {
 
         try {
 
-            Stage rulesCompilerStage = new Stage();
+            rulesCompilerStage = new Stage();
             FXMLLoader loader = new FXMLLoader(TimeTableCompilerUltimate.class.getResource(Views.RULECOMPILE.getFileName()));
             rulesCompilerStage.setScene(new Scene(loader.load()));
             RulesCompilerViewController controller = loader.getController();
@@ -109,6 +108,7 @@ public class CompileScheduleViewController implements Initializable {
                 rulesCompilerStage.close();
             });
             rulesCompilerStage.setAlwaysOnTop(true);
+            rulesCompilerStage.initModality(Modality.APPLICATION_MODAL);
             rulesCompilerStage.show();
             isRulesCompilerShowing = true;
         }
@@ -136,6 +136,7 @@ public class CompileScheduleViewController implements Initializable {
                 addingOptionalStage.close();
             });
             addingOptionalStage.setAlwaysOnTop(true);
+            addingOptionalStage.initModality(Modality.APPLICATION_MODAL);
             addingOptionalStage.show();
             isAddingOptionalOpen = true;
         }
@@ -144,6 +145,23 @@ public class CompileScheduleViewController implements Initializable {
             throw new RuntimeException();
         }
     }
+
+    private void createNullGeneratedScheduleAlert() {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Неудачная попытка");
+        alert.setHeaderText("Не удалось сгенерировать расписание.\nИзмените правила или попробуйте ещё раз.");
+        alert.showAndWait();
+    }
+
+    private void createNullCurrentScheduleAlert() {
+
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Неудачная попытка");
+        alert.setHeaderText("Для добавления факультатива необходимо \nсгенерировать расписание.");
+        alert.showAndWait();
+    }
+
     public void updateNumberOfRules() {
 
         numberOfRulesLabel.setText("Добавлено правил: " + rules.size());
@@ -172,8 +190,15 @@ public class CompileScheduleViewController implements Initializable {
 
             deleteCurrentSchedule();
         }
-        currentSchedule = Schedule.generate(new ArrayList<>());
-        outputSchedule(currentSchedule);
+        currentSchedule = Schedule.generate(rules);
+        if (currentSchedule == null) {
+
+            createNullGeneratedScheduleAlert();
+        }
+        else {
+
+            outputSchedule(currentSchedule);
+        }
     }
     @FXML
     private void clickToLoadForA() {
@@ -214,7 +239,12 @@ public class CompileScheduleViewController implements Initializable {
 
             return;
         }
-        openRulesCompiler();
+        if (rulesCompilerStage == null) {
+
+            openRulesCompiler();
+            return;
+        }
+        rulesCompilerStage.show();
     }
     @FXML
     private void clickToDeleteRules() {
@@ -225,8 +255,13 @@ public class CompileScheduleViewController implements Initializable {
     @FXML
     private void clickToAddOptional() {
 
-        if (isAddingOptionalOpen || currentSchedule == null) {
+        if (isAddingOptionalOpen) {
 
+            return;
+        }
+        if (currentSchedule == null) {
+
+            createNullCurrentScheduleAlert();
             return;
         }
         openAddingOptional();

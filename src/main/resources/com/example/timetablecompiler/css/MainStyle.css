@@ -4,6 +4,7 @@
     -fx-border-color: transparent;
     -fx-max-width: Infinity;
     -fx-min-height: 70px;
+    -fx-cursor: pointer;
 }
 
 .button:hover {

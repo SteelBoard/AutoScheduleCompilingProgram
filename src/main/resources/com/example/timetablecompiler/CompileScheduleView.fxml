@@ -11,7 +11,7 @@
         <RowConstraints />
         <RowConstraints />
     </rowConstraints>
-    <FlowPane GridPane.rowIndex="0" >
+    <FlowPane GridPane.rowIndex="0" hgap="5">
         <Button onAction="#clickToCompileRules" text="Добавить правила" />
         <Label fx:id="numberOfRulesLabel" text="Добавлено правил: 0"/>
         <Button onAction="#clickToDeleteRules" text="Удалить текущие правила"/>

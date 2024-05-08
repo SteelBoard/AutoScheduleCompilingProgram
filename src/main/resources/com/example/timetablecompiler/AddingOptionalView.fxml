@@ -28,6 +28,7 @@
             <Label text="Выберите кабинет"/>
             <ChoiceBox fx:id="classroom"/>
         </FlowPane>
+        <Label fx:id="WrongDataLabel"/>
         <Button onAction="#clickToSaveOptional" GridPane.rowIndex="5" text="Сохранить"/>
     </GridPane>
 </AnchorPane>

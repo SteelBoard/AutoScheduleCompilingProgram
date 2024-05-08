@@ -1,12 +1,17 @@
 package com.example.timetablecompiler.controllers;
 
 import com.example.timetablecompiler.model.DbSubjectsDataModel;
+import com.example.timetablecompiler.model.LessonTimes;
+import com.example.timetablecompiler.model.Weekdays;
+import com.example.timetablecompiler.model.rules.PositionRule;
 import com.example.timetablecompiler.model.rules.Rule;
 import com.example.timetablecompiler.model.rules.SequenceRule;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -50,7 +55,7 @@ public class RulesCompilerViewController implements Initializable {
 
         for (ChoiceBox<String> choiceBox : rules) {
 
-            choiceBox.getItems().addAll("<Не выбрано>", "Последовательность");
+            choiceBox.getItems().addAll("<Не выбрано>", "Последовательность", "Позиция");
             choiceBox.setValue("<Не выбрано>");
 
             choiceBox.valueProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -59,12 +64,12 @@ public class RulesCompilerViewController implements Initializable {
                         && node != choiceBox);
 
                 columnCounts[GridPane.getRowIndex(choiceBox)] = 1;
+                HashMap<String, Integer> subjects = DbSubjectsDataModel.getQuantityOfSubjects();
 
                 if (newValue.equals("<Не выбрано>")) {
 
-                } else if (newValue.equals("Последовательность")) {
-
-                    HashMap<String, Integer> subjects = DbSubjectsDataModel.getQuantityOfSubjects();
+                }
+                else if (newValue.equals("Последовательность")) {
 
                     for (int i = 0; i < 3; i++) {
 
@@ -75,6 +80,37 @@ public class RulesCompilerViewController implements Initializable {
                         gridPane.add(subjectChoice, columnCounts[GridPane.getRowIndex(choiceBox)], GridPane.getRowIndex(choiceBox));
                         columnCounts[GridPane.getRowIndex(choiceBox)]++;
                     }
+                }
+                else if (newValue.equals("Позиция")) { // Заменить на switch case
+
+                    ChoiceBox<String> day, lesson, subject;
+
+                    day = new ChoiceBox<>();
+                    day.getItems().add("<Не выбрано>");
+                    for (Weekdays weekday : Weekdays.getAllWeekdays()) {
+
+                        day.getItems().add(weekday.getName());
+                    }
+                    day.setValue("<Не выбрано>");
+                    gridPane.add(day, columnCounts[GridPane.getRowIndex(choiceBox)], GridPane.getRowIndex(choiceBox));
+                    columnCounts[GridPane.getRowIndex(choiceBox)]++;
+
+                    lesson = new ChoiceBox<>();
+                    lesson.getItems().add("<Не выбрано>");
+                    for (LessonTimes lessonTime : LessonTimes.getAllLessonTimesNumber()) {
+
+                        lesson.getItems().add(lessonTime.getNumber().toString());
+                    }
+                    lesson.setValue("<Не выбрано>");
+                    gridPane.add(lesson, columnCounts[GridPane.getRowIndex(choiceBox)], GridPane.getRowIndex(choiceBox));
+                    columnCounts[GridPane.getRowIndex(choiceBox)]++;
+
+                    subject = new ChoiceBox<>();
+                    subject.getItems().add("<Не выбрано>");
+                    subject.getItems().addAll(subjects.keySet());
+                    subject.setValue("<Не выбрано>");
+                    gridPane.add(subject, columnCounts[GridPane.getRowIndex(choiceBox)], GridPane.getRowIndex(choiceBox));
+                    columnCounts[GridPane.getRowIndex(choiceBox)]++;
                 }
             });
         }
@@ -109,6 +145,22 @@ public class RulesCompilerViewController implements Initializable {
 
                     result = result && count.get() > 1;
                 }
+                case "Позиция" -> {
+
+                    for (Node node : gridPane.getChildren()) {
+
+                        Integer columnIndex = GridPane.getColumnIndex(node);
+                        Integer rowIndex = GridPane.getRowIndex(node);
+
+                        if (columnIndex != null && rowIndex != null && Objects.equals(rowIndex, GridPane.getRowIndex(choice))
+                                && columnIndex > 0
+                                && node instanceof ChoiceBox<?> ) {
+
+                            ChoiceBox<String> positionRuleChoiceBox = (ChoiceBox<String>) node;
+                            result = result && !positionRuleChoiceBox.getValue().equals("<Не выбрано>");
+                        }
+                    }
+                }
             }
             count.set(0);
             if (!result) {
@@ -130,6 +182,7 @@ public class RulesCompilerViewController implements Initializable {
             return;
         }
 
+        chosenRules.clear();
         for (ChoiceBox<String> choice : rules) {
 
             switch (choice.getValue()) {
@@ -150,6 +203,34 @@ public class RulesCompilerViewController implements Initializable {
                         }
                     });
                     chosenRules.add(new SequenceRule(subjectSequence));
+                }
+                case "Позиция" -> {
+
+                    Weekdays day = null;
+                    LessonTimes lesson = null;
+                    String subject = null;
+                    for (Node node : gridPane.getChildren()) {
+
+                        Integer columnIndex = GridPane.getColumnIndex(node);
+                        Integer rowIndex = GridPane.getRowIndex(node);
+                        if (columnIndex != null && rowIndex != null && Objects.equals(rowIndex, GridPane.getRowIndex(choice))
+                                && columnIndex > 0 && columnIndex < 5
+                                && node instanceof ChoiceBox<?>) {
+
+                            ChoiceBox<String> positionRuleChoiceBox = (ChoiceBox<String>) node;
+                            if (positionRuleChoiceBox.getItems().contains("Понедельник")) {
+
+                                day = Weekdays.getWeekdayByName(positionRuleChoiceBox.getValue());
+                            } else if (positionRuleChoiceBox.getItems().contains("1")) {
+
+                                lesson = LessonTimes.getLessonTimeByNumber(Integer.parseInt(positionRuleChoiceBox.getValue()));
+                            } else if (positionRuleChoiceBox.getItems().contains("Алгебра")) {
+
+                                subject = positionRuleChoiceBox.getValue();
+                            }
+                        }
+                    }
+                    chosenRules.add(new PositionRule(day, lesson, subject));
                 }
             }
         }

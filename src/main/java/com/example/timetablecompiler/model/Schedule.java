@@ -1,5 +1,6 @@
 package com.example.timetablecompiler.model;
 
+import com.example.timetablecompiler.model.rules.PositionRule;
 import com.example.timetablecompiler.model.rules.Rule;
 import com.example.timetablecompiler.util.DbConnectionManager;
 import com.example.timetablecompiler.util.TransformUtil;
@@ -32,23 +33,43 @@ public class Schedule {
         HashMap<String, String> subjects_teachers = DbSubjectsDataModel.getSubjectWithTeachers();
         HashMap<String, Integer> subjects_classrooms = DbSubjectsDataModel.getClassrooms();
 
+        for (Rule rule : rules) {
+
+            if (rule instanceof PositionRule positionRule) {
+
+                if (schedule.getLessonArray()[positionRule.getDay().getNumber()-1][positionRule.getLessonNumber().getNumber()-1] == null) {
+
+                    schedule.getLessonArray()[positionRule.getDay().getNumber()-1][positionRule.getLessonNumber().getNumber()-1] =
+                            new Lesson(positionRule.getSubject(), subjects_teachers.get(positionRule.getSubject()), subjects_classrooms.get(positionRule.getSubject()));
+                    shuffledList.remove(positionRule.getSubject());
+                }
+                else if (!positionRule.getSubject().equals(schedule.getLessonArray()[positionRule.getDay().getNumber()-1][positionRule.getLessonNumber().getNumber()-1].getSubject())) {
+
+                    return null;
+                }
+            }
+        }
+
 
         for (int i = 0; i < schedule.getLessonArray().length; i++) {
 
             for (int j = 0; j < 6; j++) {
 
-                for (String subject : shuffledList) {
+                if (schedule.getLessonArray()[i][j] == null) {
 
-                    schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject), subjects_classrooms.get(subject));
-                    if (schedule.checkRule(rules) &&
-                            Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
+                    for (String subject : shuffledList) {
 
-                        shuffledList.remove(subject);
-                        break;
-                    }
-                    else {
+                        schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject), subjects_classrooms.get(subject));
+                        if (schedule.checkRule(rules) &&
+                                Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
 
-                        schedule.getLessonArray()[i][j] = null;
+                            shuffledList.remove(subject);
+                            break;
+                        }
+                        else {
+
+                            schedule.getLessonArray()[i][j] = null;
+                        }
                     }
                 }
             }

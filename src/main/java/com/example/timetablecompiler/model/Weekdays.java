@@ -1,6 +1,7 @@
 package com.example.timetablecompiler.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public enum Weekdays {
 
@@ -8,9 +9,7 @@ public enum Weekdays {
     TUESDAY("Вторник", 2),
     WEDNESDDAY("Среда", 3),
     THURSDAY("Четверг", 4),
-    FRIDAY("Пятница", 5),
-    SATURDAY("Суббота", 6),
-    SUNDAY("Воскресенье", 7);
+    FRIDAY("Пятница", 5);
 
     private final String name;
     private final Integer number;
@@ -39,8 +38,6 @@ public enum Weekdays {
             case 3 -> WEDNESDDAY;
             case 4 -> THURSDAY;
             case 5 -> FRIDAY;
-            case 6 -> SATURDAY;
-            case 7 -> SUNDAY;
             default -> null;
         };
     }
@@ -53,9 +50,12 @@ public enum Weekdays {
             case "Среда" -> WEDNESDDAY;
             case "Четверг" -> THURSDAY;
             case "Пятница" -> FRIDAY;
-            case "Суббота" -> SATURDAY;
-            case "Воскресенье" -> SUNDAY;
             default -> null;
         };
+    }
+
+    public static ArrayList<Weekdays> getAllWeekdays() {
+
+        return new ArrayList<>(Arrays.asList(MONDAY, TUESDAY, WEDNESDDAY, THURSDAY, FRIDAY));
     }
 }
