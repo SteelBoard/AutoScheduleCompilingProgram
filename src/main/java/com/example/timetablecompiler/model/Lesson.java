@@ -45,4 +45,18 @@ public class Lesson {
 
         this.classroom = classroom;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (!(obj instanceof Lesson)) {
+
+            return false;
+        }
+
+        Lesson otherLesson = (Lesson) obj;
+        return this.subject.equals(otherLesson.getSubject()) &&
+                this.classroom.equals(otherLesson.classroom) &&
+                this.teacher.equals(otherLesson.teacher);
+    }
 }

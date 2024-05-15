@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane style="-fx-font-size: 16px" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.InformationViewController" prefHeight="400.0" prefWidth="600.0" minHeight="600" minWidth="700">
+    <FlowPane AnchorPane.leftAnchor="0" orientation="VERTICAL">
+        <Label text="Выберите предмет"/>
+        <ChoiceBox fx:id="subjectChoice"/>
+    </FlowPane>
+    <FlowPane vgap="10" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="70" orientation="VERTICAL">
+        <Label text="Предмет"/>
+        <VBox>
+            <Label fx:id="subjectLabel"/>
+            <Separator minWidth="500"/>
+        </VBox>
+        <Label text="Кабинет"/>
+        <VBox>
+            <Label fx:id="classroomLabel"/>
+            <Separator minWidth="500"/>
+        </VBox>
+        <Label text="Преподаватели"/>
+        <VBox>
+            <Label fx:id="teachersLabel"/>
+            <Separator minWidth="500"/>
+        </VBox>
+    </FlowPane>
+</AnchorPane>

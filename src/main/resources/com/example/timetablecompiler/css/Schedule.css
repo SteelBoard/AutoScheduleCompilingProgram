@@ -7,6 +7,6 @@
 .grid-pane > * {
 
     -fx-min-width: 140px;
-    -fx-min-height: 57px;
+    -fx-min-height: 56px;
     -fx-alignment: center;
 }

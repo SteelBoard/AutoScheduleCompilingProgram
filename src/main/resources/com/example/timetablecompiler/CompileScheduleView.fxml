@@ -1,33 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane stylesheets="@css/CompileScheduleStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.CompileScheduleViewController">
-    <rowConstraints>
-        <RowConstraints />
-        <RowConstraints />
-    </rowConstraints>
-    <FlowPane GridPane.rowIndex="0" hgap="5">
-        <Button onAction="#clickToCompileRules" text="Добавить правила" />
-        <Label fx:id="numberOfRulesLabel" text="Добавлено правил: 0"/>
-        <Button onAction="#clickToDeleteRules" text="Удалить текущие правила"/>
-        <Button onAction="#clickToGenerateSchedule" GridPane.columnIndex="0" GridPane.rowIndex="0" text="Сгенерировать"/>
-        <Label text="Загрузить для:"/>
-        <Button onAction="#clickToLoadForA" text="10А"/>
-        <Button onAction="#clickToLoadForB" text="10Б"/>
-        <Label text="Удалить для:"/>
-        <Button onAction="#clickToDeleteForA" text="10А"/>
-        <Button onAction="#clickToDeleteForB" text="10Б"/>
-        <Button onAction="#clickToAddOptional" text="Добавить факультатив" />
-        <Label text="Вывести текущее для:"/>
-        <Button onAction="#clickToOutputA" text="10A"/>
-        <Button onAction="#clickToOutputB" text="10Б"/>
+<AnchorPane stylesheets="@css/CompileScheduleStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.CompileScheduleViewController"
+    maxHeight="600" minHeight="600" minWidth="700">
+    <FlowPane hgap="7" AnchorPane.topAnchor="0" minWidth="900">
+        <VBox spacing="5">
+            <Label fx:id="numberOfRulesLabel" text="Добавлено правил: 0"/>
+            <Button onAction="#clickToCompileRules" text="Добавить правила" />
+            <Button onAction="#clickToDeleteRules" text="Удалить текущие правила"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Составить для:"/>
+            <Button onAction="#clickToGenerateForA" text="10А"/>
+            <Button text="10Б"/>
+            <Button text="10В"/>
+            <Button text="10Г"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Загрузить для:"/>
+            <Button onAction="#clickToLoadForA" text="10А"/>
+            <Button onAction="#clickToLoadForB" text="10Б"/>
+            <Button onAction="#clickToLoadForC" text="10В"/>
+            <Button onAction="#clickToLoadForD" text="10Г"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Удалить для:"/>
+            <Button onAction="#clickToDeleteForA" text="10А"/>
+            <Button onAction="#clickToDeleteForB" text="10Б"/>
+            <Button onAction="#clickToDeleteForC" text="10В"/>
+            <Button onAction="#clickToDeleteForD" text="10Г"/>
+        </VBox>
+        <VBox spacing="5">
+            <Label text="Вывести текущее для:"/>
+            <Button onAction="#clickToOutputA" text="10A"/>
+            <Button onAction="#clickToOutputB" text="10Б"/>
+            <Button onAction="#clickToOutputC" text="10В"/>
+            <Button onAction="#clickToOutputD" text="10Г"/>
+        </VBox>
     </FlowPane>
-    <GridPane GridPane.rowIndex="1" stylesheets="@css/Schedule.css" styleClass="grid-pane" fx:id="gridPane">
+    <GridPane AnchorPane.bottomAnchor="0" stylesheets="@css/Schedule.css" styleClass="grid-pane" fx:id="gridPane">
         <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
@@ -48,4 +61,4 @@
             <RowConstraints />
         </rowConstraints>
     </GridPane>
-</GridPane>
+</AnchorPane>

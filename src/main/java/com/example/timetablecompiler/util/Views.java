@@ -7,8 +7,8 @@ public enum Views {
     SEEINGSCHEDULE("SeeingScheduleView.fxml"),
     COMPILESCHEDULE("CompileScheduleView.fxml"),
     RULECOMPILE("RulesCompilerView.fxml"),
-    ADDINGOPTIONAL("AddingOptionalView.fxml"),
-    NOTALLOWED("NotAllowedView.fxml");
+    NOTALLOWED("NotAllowedView.fxml"),
+    INFORMATION("InformationView.fxml");
 
     private final String fileName;
 

@@ -2,32 +2,24 @@ package com.example.timetablecompiler.model;
 
 import com.example.timetablecompiler.model.rules.PositionRule;
 import com.example.timetablecompiler.model.rules.Rule;
-import com.example.timetablecompiler.util.DbConnectionManager;
 import com.example.timetablecompiler.util.TransformUtil;
+import java.util.*;
+import java.util.stream.Collectors;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import static java.util.Collections.shuffle;
 
 public class Schedule {
 
     private Lesson[][] lessonArray;
 
-    public Schedule(Lesson[][] lessonList) {
-
-        this.lessonArray = lessonList;
-    }
-
     public Schedule() {
 
         this.lessonArray = new Lesson[5][8];
     }
 
-    public static Schedule generate(ArrayList<Rule> rules) {
+    public static Schedule generateRandom(ArrayList<Rule> rules) {
 
-        Schedule schedule = new Schedule(new Lesson[5][8]);
+        Schedule schedule = new Schedule();
         List<String> shuffledList = TransformUtil.HashMapOfSubjectToArrayList(DbSubjectsDataModel.getQuantityOfSubjects());
         shuffle(shuffledList);
         HashMap<String, String> subjects_teachers = DbSubjectsDataModel.getSubjectWithTeachers();
@@ -37,13 +29,13 @@ public class Schedule {
 
             if (rule instanceof PositionRule positionRule) {
 
-                if (schedule.getLessonArray()[positionRule.getDay().getNumber()-1][positionRule.getLessonNumber().getNumber()-1] == null) {
+                if (schedule.getLessonArray()[positionRule.getDay().getNumber()-1][positionRule.getLessonNumber().getNumber()-1] == null && shuffledList.contains(positionRule.getSubject())) {
 
                     schedule.getLessonArray()[positionRule.getDay().getNumber()-1][positionRule.getLessonNumber().getNumber()-1] =
                             new Lesson(positionRule.getSubject(), subjects_teachers.get(positionRule.getSubject()), subjects_classrooms.get(positionRule.getSubject()));
                     shuffledList.remove(positionRule.getSubject());
                 }
-                else if (!positionRule.getSubject().equals(schedule.getLessonArray()[positionRule.getDay().getNumber()-1][positionRule.getLessonNumber().getNumber()-1].getSubject())) {
+                else if (!shuffledList.contains(positionRule.getSubject()) || !Objects.equals(positionRule.getSubject(), schedule.getLessonArray()[positionRule.getDay().getNumber() - 1][positionRule.getLessonNumber().getNumber() - 1].getSubject())) {
 
                     return null;
                 }
@@ -61,7 +53,7 @@ public class Schedule {
 
                         schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject), subjects_classrooms.get(subject));
                         if (schedule.checkRule(rules) &&
-                                Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
+                                Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 3) {
 
                             shuffledList.remove(subject);
                             break;
@@ -87,7 +79,7 @@ public class Schedule {
 
                             schedule.getLessonArray()[i][j] = new Lesson(subject, subjects_teachers.get(subject), subjects_classrooms.get(subject));
                             if (schedule.checkRule(rules)
-                                    && Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 2) {
+                                    && Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 3) {
 
                                 shuffledList.remove(subject);
                                 break;
@@ -113,27 +105,174 @@ public class Schedule {
         }
     }
 
-    public static Schedule generateRandom() {
+    public static Schedule generate(ArrayList<Rule> rules, Classes grade) {
 
-        HashMap<String, Integer> quantity = DbSubjectsDataModel.getQuantityOfSubjects();
-        HashMap<String, String> subjectsTeachers = DbSubjectsDataModel.getSubjectWithTeachers();
-        Schedule schedule = new Schedule(new Lesson[5][6]);
+        HashMap<String, ArrayList<String>> subjectsWithTeachers = DbSubjectsDataModel.getTeachersWithSubjects();
+        List<String> subjects = TransformUtil.HashMapOfSubjectToArrayList(DbSubjectsDataModel.getQuantityOfSubjects());
+        shuffle(subjects);
+        HashMap<String, Integer> classrooms = DbSubjectsDataModel.getClassrooms();
 
+        Schedule schedule = new Schedule();
 
-        int maxLessonsInDay = 2;
+        for (Rule rule : rules) {
 
-        ArrayList<String> subjectShuffledList = TransformUtil.HashMapOfSubjectToArrayList(quantity);
-        shuffle(subjectShuffledList);
+            if (rule instanceof PositionRule currentRule) {
 
-        for (int i = 0, currentSubject = 0; i < schedule.getLessonArray().length; i++) {
+                List<String> freeTeachers = subjectsWithTeachers.get(currentRule.getSubject()).stream().filter(teacher -> isTeacherFree(currentRule.getDay(), currentRule.getLessonNumber(), teacher, grade)).toList();
 
-            for (int j = 0; j < schedule.getLessonArray()[i].length; j++) {
+                if (schedule.getLessonArray()[currentRule.getDay().getNumber() - 1][currentRule.getLessonNumber().getNumber() - 1] == null
+                        && !freeTeachers.isEmpty() && subjects.contains(currentRule.getSubject()) && isClassroomFree(currentRule.getDay(), currentRule.getLessonNumber(), classrooms.get(currentRule.getSubject()), grade)) {
 
+                    schedule.getLessonArray()[currentRule.getDay().getNumber() - 1][currentRule.getLessonNumber().getNumber() - 1]
+                            = new Lesson(currentRule.getSubject(), freeTeachers.get(0), classrooms.get(currentRule.getSubject()));
+                    subjects.remove(currentRule.getSubject());
+                } else if (Objects.equals(schedule.getLessonArray()[currentRule.getDay().getNumber() - 1][currentRule.getLessonNumber().getNumber() - 1].getSubject(), currentRule.getSubject())
+                        && subjects.contains(currentRule.getSubject())) {
 
+                    continue;
+                } else {
+
+                    return null;
+                }
             }
         }
 
-        return schedule;
+        for (int i = 0; i < schedule.getLessonArray().length; i++) {
+
+            for (int j = 0; j < 6; j++) {
+
+                if (schedule.getLessonArray()[i][j] == null) {
+
+                    for (String subject : subjects) {
+
+                        List<String> freeTeachers = new ArrayList<>();
+                        ArrayList<String> get = subjectsWithTeachers.get(subject);
+                        for (String teacher : get) {
+
+                            if (isTeacherFree(Weekdays.getWeekdayByNumber(i + 1), LessonTimes.getLessonTimeByNumber(j + 1), teacher, grade)) {
+
+                                freeTeachers.add(teacher);
+                            }
+                        }
+
+                        if (!freeTeachers.isEmpty()) {
+
+                            schedule.getLessonArray()[i][j] = new Lesson(subject, freeTeachers.get(0), classrooms.get(subject));
+                        }
+                        else {
+
+                            continue;
+                        }
+
+                        if (schedule.checkRule(rules) &&
+                                Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 3
+                                && isClassroomFree(Weekdays.getWeekdayByNumber(i+1), LessonTimes.getLessonTimeByNumber(j+1), classrooms.get(subject), grade)) {
+
+                            subjects.remove(subject);
+                            break;
+                        }
+                        else {
+
+                            schedule.getLessonArray()[i][j] = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (subjects.isEmpty()) {
+
+            return schedule;
+        }
+
+        for (int i = 0; i < schedule.getLessonArray().length; i++) {
+
+            for (int j = 0; j < 8; j++) {
+
+                if (schedule.getLessonArray()[i][j] == null) {
+
+                    for (String subject : subjects) {
+
+                        List<String> freeTeachers = new ArrayList<>();
+                        for (String teacher: subjectsWithTeachers.get(subject)) {
+
+                            if (isTeacherFree(Weekdays.getWeekdayByNumber(i +1), LessonTimes.getLessonTimeByNumber(j +1), teacher, grade)) {
+
+                                freeTeachers.add(teacher);
+                            }
+                        }
+
+                        if (!freeTeachers.isEmpty()) {
+
+                            schedule.getLessonArray()[i][j] = new Lesson(subject, freeTeachers.get(0), classrooms.get(subject));
+                        }
+                        else {
+
+                            continue;
+                        }
+
+                        if (schedule.checkRule(rules) &&
+                                Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 3
+                                && isClassroomFree(Weekdays.getWeekdayByNumber(i+1), LessonTimes.getLessonTimeByNumber(j+1), classrooms.get(subject), grade)) {
+
+                            subjects.remove(subject);
+                            break;
+                        }
+                        else {
+
+                            schedule.getLessonArray()[i][j] = null;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (subjects.isEmpty()) {
+
+            return schedule;
+        }
+        else {
+
+            return null;
+        }
+    }
+
+    public static boolean isTeacherFree(Weekdays day, LessonTimes lesson, String teacher, Classes currentGrade) {
+
+        ArrayList<Schedule> schedules = new ArrayList<>(Arrays.asList(DbScheduleDataModel.getSchedule(Classes.A),
+                DbScheduleDataModel.getSchedule(Classes.B), DbScheduleDataModel.getSchedule(Classes.C),
+                DbScheduleDataModel.getSchedule(Classes.D)));
+
+        boolean result = true;
+        for (Schedule schedule : schedules) {
+
+            if (schedule.equals(DbScheduleDataModel.getSchedule(currentGrade)) || schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1] == null) {
+
+                continue;
+            }
+            result = result && !Objects.equals(schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1].getTeacher(), teacher);
+        }
+
+        return result;
+    }
+
+    public static boolean isClassroomFree(Weekdays day, LessonTimes lesson, Integer classroom, Classes currentGrade) {
+
+        ArrayList<Schedule> schedules = new ArrayList<>(Arrays.asList(DbScheduleDataModel.getSchedule(Classes.A),
+                DbScheduleDataModel.getSchedule(Classes.B), DbScheduleDataModel.getSchedule(Classes.C),
+                DbScheduleDataModel.getSchedule(Classes.D)));
+
+        boolean result = true;
+        for (Schedule schedule : schedules) {
+
+            if (schedule.equals(DbScheduleDataModel.getSchedule(currentGrade)) || schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1] == null) {
+
+                continue;
+            }
+            result = result && !Objects.equals(schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1].getClassroom(), classroom);
+        }
+
+        return result;
     }
 
     public boolean checkRule(ArrayList<Rule> rulesList) {
@@ -168,5 +307,23 @@ public class Schedule {
         return this.lessonArray;
     }
 
+    @Override
+    public boolean equals(Object obj) {
 
+        if (!(obj instanceof Schedule otherSchedule)) {
+
+            return false;
+        }
+
+        boolean result = true;
+        for (int i = 0; i < this.getLessonArray().length; i++) {
+
+            for (int j = 0; j < this.lessonArray[i].length; j++) {
+
+                result = result && Objects.equals(this.lessonArray[i][j], otherSchedule.lessonArray[i][j]);
+            }
+        }
+
+        return result;
+    }
 }

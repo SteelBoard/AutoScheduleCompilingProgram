@@ -1,6 +1,7 @@
 .button {
 
     -fx-background-color: #DDDDDD;
+    -fx-min-height: 10px;
 }
 
 .button:hover {

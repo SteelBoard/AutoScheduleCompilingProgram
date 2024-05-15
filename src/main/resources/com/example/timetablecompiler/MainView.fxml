@@ -1,31 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.Label?>
+<AnchorPane fx:id="mainPane" minHeight="612" minWidth="1024" stylesheets="@css/MainStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.example.timetablecompiler.controllers.MainViewController">
+    <AnchorPane>
+        <VBox fx:id="buttons" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button onAction="#clickToSeeSchedule" text="Просмотр расписания" VBox.vgrow="ALWAYS" />
+            <Button onAction="#clickToCompileSchedule" text="Составление расписания" VBox.vgrow="ALWAYS" />
+            <Button onAction="#clickToSeeInformation" text="Просмотр информации" />
+            <Button onAction="#clickToLogOut" text="Выйти из аккаунта" />
+            <Button onAction="#clickToQuit" text="Выйти из программы" />
+        </VBox>
+        <Separator orientation="VERTICAL" minHeight="600" AnchorPane.leftAnchor="155"/>
+    </AnchorPane>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Separator?>
-<GridPane xmlns:fx="http://javafx.com/fxml" stylesheets="@css/MainStyle.css" fx:controller="com.example.timetablecompiler.controllers.MainViewController" minWidth="1050" minHeight="600">
-    <columnConstraints>
-        <ColumnConstraints/>
-        <ColumnConstraints/>
-    </columnConstraints>
-    <FlowPane GridPane.columnIndex="0" orientation="VERTICAL" styleClass="container">
-        <Button onAction="#clickToSeeSchedule" text="Просмотр расписания"/>
-        <Button onAction="#clickToCompileSchedule" text="Составление расписания"/>
-        <Button onAction="#clickToLogOut" text="Выйти из аккаунта"/>
-        <Button onAction="#clickToQuit" text="Выйти из программы"/>
-    </FlowPane>
-    <Separator GridPane.columnIndex="1" orientation="VERTICAL"/>
-    <GridPane fx:id="framePane" GridPane.columnIndex="1">
+    <AnchorPane fx:id="framePane" layoutX="164.0" prefHeight="600.0" prefWidth="862.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <padding>
-            <Insets left="30"/>
+            <Insets left="10" />
         </padding>
-    </GridPane>
-</GridPane>
-
+    </AnchorPane>
+</AnchorPane>

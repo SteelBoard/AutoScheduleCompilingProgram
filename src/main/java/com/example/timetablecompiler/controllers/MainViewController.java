@@ -2,21 +2,22 @@ package com.example.timetablecompiler.controllers;
 
 import com.example.timetablecompiler.TimeTableCompilerUltimate;
 import com.example.timetablecompiler.util.Views;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+
 import java.net.URL;
-import java.sql.Time;
 import java.util.ResourceBundle;
-import javafx.scene.control.Button;
 
 public class MainViewController implements Initializable {
 
-    @FXML private GridPane gridPane;
-    @FXML private GridPane framePane;
+    @FXML private AnchorPane framePane, mainPane;
+    @FXML private VBox buttons;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,6 +56,12 @@ public class MainViewController implements Initializable {
 
             switchToFrame(Views.NOTALLOWED);
         }
+    }
+
+    @FXML
+    private void clickToSeeInformation() {
+
+        switchToFrame(Views.INFORMATION);
     }
 
     @FXML

@@ -3,7 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="gridPane" styleClass="grid-pane" stylesheets="@css/Schedule.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.SeeingScheduleViewController">
+<GridPane fx:id="gridPane" styleClass="grid-pane" stylesheets="@css/Schedule.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.SeeingScheduleViewController"
+            minHeight="600" minWidth="700">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS"/>
         <ColumnConstraints hgrow="ALWAYS"/>

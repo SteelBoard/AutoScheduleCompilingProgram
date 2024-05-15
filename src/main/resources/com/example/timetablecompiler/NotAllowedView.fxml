@@ -7,6 +7,5 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane alignment="CENTER" xmlns="http://javafx.com/javafx">
-
     <Label text="У вас нет доступа к этой функции"/>
 </GridPane>

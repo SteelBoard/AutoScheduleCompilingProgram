@@ -32,7 +32,7 @@ public class RulesCompilerViewController implements Initializable {
     private Stage rulesCompilerStage;
     private ObservableList<ChoiceBox<String>> rules;
     private ArrayList<Rule> chosenRules = new ArrayList<>();
-    private Integer[] columnCounts = new Integer[6];
+    private Integer[] columnCounts = new Integer[10];
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -48,7 +48,7 @@ public class RulesCompilerViewController implements Initializable {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList())
         );
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 10; i++) {
 
             columnCounts[i] = 1;
         }

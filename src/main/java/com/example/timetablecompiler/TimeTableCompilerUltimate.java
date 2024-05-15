@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
+// базу данных посмотреть
 public class TimeTableCompilerUltimate extends Application {
 
     private static Stage stage;

@@ -28,14 +28,12 @@ public class CompileScheduleViewController implements Initializable {
     private Stage rulesCompilerStage;
     private Schedule currentSchedule;
     private Boolean isRulesCompilerShowing;
-    private Boolean isAddingOptionalOpen;
     private ArrayList<Rule> rules = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         isRulesCompilerShowing = false;
-        isAddingOptionalOpen = false;
         addWeekdays();
     }
 
@@ -118,34 +116,6 @@ public class CompileScheduleViewController implements Initializable {
         }
     }
 
-    private void openAddingOptional() {
-
-        try {
-
-            Stage addingOptionalStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(TimeTableCompilerUltimate.class.getResource(Views.ADDINGOPTIONAL.getFileName()));
-            addingOptionalStage.setScene(new Scene(loader.load()));
-            AddingOptionalViewController controller = loader.getController();
-            controller.setInitialController(this);
-            controller.setCurrentSchedule(currentSchedule);
-            controller.setStage(addingOptionalStage);
-
-            addingOptionalStage.setOnCloseRequest(windowEvent -> {
-
-                isAddingOptionalOpen = false;
-                addingOptionalStage.close();
-            });
-            addingOptionalStage.setAlwaysOnTop(true);
-            addingOptionalStage.initModality(Modality.APPLICATION_MODAL);
-            addingOptionalStage.show();
-            isAddingOptionalOpen = true;
-        }
-        catch (IOException ex) {
-
-            throw new RuntimeException();
-        }
-    }
-
     private void createNullGeneratedScheduleAlert() {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -174,10 +144,6 @@ public class CompileScheduleViewController implements Initializable {
 
         this.isRulesCompilerShowing = flag;
     }
-    public void setIsAddingOptionalOpen(Boolean flag) {
-
-        this.isAddingOptionalOpen = flag;
-    }
     public Schedule getCurrentSchedule() {
 
         return this.currentSchedule;
@@ -190,7 +156,24 @@ public class CompileScheduleViewController implements Initializable {
 
             deleteCurrentSchedule();
         }
-        currentSchedule = Schedule.generate(rules);
+        currentSchedule = Schedule.generateRandom(rules);
+        if (currentSchedule == null) {
+
+            createNullGeneratedScheduleAlert();
+        }
+        else {
+
+            outputSchedule(currentSchedule);
+        }
+    }
+    @FXML
+    private void clickToGenerateForA() {
+
+        if (currentSchedule != null) {
+
+            deleteCurrentSchedule();
+        }
+        currentSchedule = Schedule.generate(rules, Classes.A);
         if (currentSchedule == null) {
 
             createNullGeneratedScheduleAlert();
@@ -223,6 +206,28 @@ public class CompileScheduleViewController implements Initializable {
         DbScheduleDataModel.insertSchedule(currentSchedule, Classes.B);
     }
     @FXML
+    private void clickToLoadForC() {
+
+        if (currentSchedule == null) {
+
+            return;
+        }
+
+        DbScheduleDataModel.deleteSchedule(Classes.C);
+        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.C);
+    }
+    @FXML
+    private void clickToLoadForD() {
+
+        if (currentSchedule == null) {
+
+            return;
+        }
+
+        DbScheduleDataModel.deleteSchedule(Classes.D);
+        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.D);
+    }
+    @FXML
     private void clickToDeleteForA() {
 
         DbScheduleDataModel.deleteSchedule(Classes.A);
@@ -231,6 +236,16 @@ public class CompileScheduleViewController implements Initializable {
     private void clickToDeleteForB() {
 
         DbScheduleDataModel.deleteSchedule(Classes.B);
+    }
+    @FXML
+    private void clickToDeleteForC() {
+
+        DbScheduleDataModel.deleteSchedule(Classes.C);
+    }
+    @FXML
+    private void clickToDeleteForD() {
+
+        DbScheduleDataModel.deleteSchedule(Classes.D);
     }
     @FXML
     private void clickToCompileRules() {
@@ -253,20 +268,6 @@ public class CompileScheduleViewController implements Initializable {
         updateNumberOfRules();
     }
     @FXML
-    private void clickToAddOptional() {
-
-        if (isAddingOptionalOpen) {
-
-            return;
-        }
-        if (currentSchedule == null) {
-
-            createNullCurrentScheduleAlert();
-            return;
-        }
-        openAddingOptional();
-    }
-    @FXML
     private void clickToOutputA() {
 
         if (currentSchedule != null) {
@@ -274,6 +275,26 @@ public class CompileScheduleViewController implements Initializable {
             deleteCurrentSchedule();
         }
         currentSchedule = DbScheduleDataModel.getSchedule(Classes.A);
+        outputSchedule(currentSchedule);
+    }
+    @FXML
+    private void clickToOutputC() {
+
+        if (currentSchedule != null) {
+
+            deleteCurrentSchedule();
+        }
+        currentSchedule = DbScheduleDataModel.getSchedule(Classes.C);
+        outputSchedule(currentSchedule);
+    }
+    @FXML
+    private void clickToOutputD() {
+
+        if (currentSchedule != null) {
+
+            deleteCurrentSchedule();
+        }
+        currentSchedule = DbScheduleDataModel.getSchedule(Classes.D);
         outputSchedule(currentSchedule);
     }
     @FXML
