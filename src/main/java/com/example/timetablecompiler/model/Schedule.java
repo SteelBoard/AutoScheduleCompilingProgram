@@ -111,6 +111,9 @@ public class Schedule {
         List<String> subjects = TransformUtil.HashMapOfSubjectToArrayList(DbSubjectsDataModel.getQuantityOfSubjects());
         shuffle(subjects);
         HashMap<String, Integer> classrooms = DbSubjectsDataModel.getClassrooms();
+        ArrayList<Schedule> schedules = new ArrayList<>(Arrays.asList(DbScheduleDataModel.getSchedule(Classes.A),
+                DbScheduleDataModel.getSchedule(Classes.B), DbScheduleDataModel.getSchedule(Classes.C),
+                DbScheduleDataModel.getSchedule(Classes.D)));
 
         Schedule schedule = new Schedule();
 
@@ -118,10 +121,10 @@ public class Schedule {
 
             if (rule instanceof PositionRule currentRule) {
 
-                List<String> freeTeachers = subjectsWithTeachers.get(currentRule.getSubject()).stream().filter(teacher -> isTeacherFree(currentRule.getDay(), currentRule.getLessonNumber(), teacher, grade)).toList();
+                List<String> freeTeachers = subjectsWithTeachers.get(currentRule.getSubject()).stream().filter(teacher -> isTeacherFree(currentRule.getDay(), currentRule.getLessonNumber(), teacher, grade, schedules)).toList();
 
                 if (schedule.getLessonArray()[currentRule.getDay().getNumber() - 1][currentRule.getLessonNumber().getNumber() - 1] == null
-                        && !freeTeachers.isEmpty() && subjects.contains(currentRule.getSubject()) && isClassroomFree(currentRule.getDay(), currentRule.getLessonNumber(), classrooms.get(currentRule.getSubject()), grade)) {
+                        && !freeTeachers.isEmpty() && subjects.contains(currentRule.getSubject()) && isClassroomFree(currentRule.getDay(), currentRule.getLessonNumber(), classrooms.get(currentRule.getSubject()), grade, schedules)) {
 
                     schedule.getLessonArray()[currentRule.getDay().getNumber() - 1][currentRule.getLessonNumber().getNumber() - 1]
                             = new Lesson(currentRule.getSubject(), freeTeachers.get(0), classrooms.get(currentRule.getSubject()));
@@ -149,7 +152,7 @@ public class Schedule {
                         ArrayList<String> get = subjectsWithTeachers.get(subject);
                         for (String teacher : get) {
 
-                            if (isTeacherFree(Weekdays.getWeekdayByNumber(i + 1), LessonTimes.getLessonTimeByNumber(j + 1), teacher, grade)) {
+                            if (isTeacherFree(Weekdays.getWeekdayByNumber(i + 1), LessonTimes.getLessonTimeByNumber(j + 1), teacher, grade, schedules)) {
 
                                 freeTeachers.add(teacher);
                             }
@@ -166,7 +169,7 @@ public class Schedule {
 
                         if (schedule.checkRule(rules) &&
                                 Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 3
-                                && isClassroomFree(Weekdays.getWeekdayByNumber(i+1), LessonTimes.getLessonTimeByNumber(j+1), classrooms.get(subject), grade)) {
+                                && isClassroomFree(Weekdays.getWeekdayByNumber(i+1), LessonTimes.getLessonTimeByNumber(j+1), classrooms.get(subject), grade, schedules)) {
 
                             subjects.remove(subject);
                             break;
@@ -196,7 +199,7 @@ public class Schedule {
                         List<String> freeTeachers = new ArrayList<>();
                         for (String teacher: subjectsWithTeachers.get(subject)) {
 
-                            if (isTeacherFree(Weekdays.getWeekdayByNumber(i +1), LessonTimes.getLessonTimeByNumber(j +1), teacher, grade)) {
+                            if (isTeacherFree(Weekdays.getWeekdayByNumber(i +1), LessonTimes.getLessonTimeByNumber(j +1), teacher, grade, schedules)) {
 
                                 freeTeachers.add(teacher);
                             }
@@ -213,7 +216,7 @@ public class Schedule {
 
                         if (schedule.checkRule(rules) &&
                                 Arrays.stream(schedule.getLessonArray()[i]).filter(lesson -> lesson != null && lesson.getSubject().equals(subject)).count() < 3
-                                && isClassroomFree(Weekdays.getWeekdayByNumber(i+1), LessonTimes.getLessonTimeByNumber(j+1), classrooms.get(subject), grade)) {
+                                && isClassroomFree(Weekdays.getWeekdayByNumber(i+1), LessonTimes.getLessonTimeByNumber(j+1), classrooms.get(subject), grade, schedules)) {
 
                             subjects.remove(subject);
                             break;
@@ -237,16 +240,19 @@ public class Schedule {
         }
     }
 
-    public static boolean isTeacherFree(Weekdays day, LessonTimes lesson, String teacher, Classes currentGrade) {
-
-        ArrayList<Schedule> schedules = new ArrayList<>(Arrays.asList(DbScheduleDataModel.getSchedule(Classes.A),
-                DbScheduleDataModel.getSchedule(Classes.B), DbScheduleDataModel.getSchedule(Classes.C),
-                DbScheduleDataModel.getSchedule(Classes.D)));
+    public static boolean isTeacherFree(Weekdays day, LessonTimes lesson, String teacher, Classes currentGrade, ArrayList<Schedule> schedules) {
 
         boolean result = true;
+        int indexOfCurrentGrade = switch(currentGrade) {
+
+            case A -> 0;
+            case B -> 1;
+            case D -> 2;
+            case C -> 3;
+        };
         for (Schedule schedule : schedules) {
 
-            if (schedule.equals(DbScheduleDataModel.getSchedule(currentGrade)) || schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1] == null) {
+            if (schedule.equals(schedules.get(indexOfCurrentGrade)) || schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1] == null) {
 
                 continue;
             }
@@ -256,16 +262,19 @@ public class Schedule {
         return result;
     }
 
-    public static boolean isClassroomFree(Weekdays day, LessonTimes lesson, Integer classroom, Classes currentGrade) {
-
-        ArrayList<Schedule> schedules = new ArrayList<>(Arrays.asList(DbScheduleDataModel.getSchedule(Classes.A),
-                DbScheduleDataModel.getSchedule(Classes.B), DbScheduleDataModel.getSchedule(Classes.C),
-                DbScheduleDataModel.getSchedule(Classes.D)));
+    public static boolean isClassroomFree(Weekdays day, LessonTimes lesson, Integer classroom, Classes currentGrade, ArrayList<Schedule> schedules) {
 
         boolean result = true;
+        int indexOfCurrentGrade = switch(currentGrade) {
+
+            case A -> 0;
+            case B -> 1;
+            case D -> 2;
+            case C -> 3;
+        };
         for (Schedule schedule : schedules) {
 
-            if (schedule.equals(DbScheduleDataModel.getSchedule(currentGrade)) || schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1] == null) {
+            if (schedule.equals(schedules.get(indexOfCurrentGrade)) || schedule.lessonArray[day.getNumber() - 1][lesson.getNumber() - 1] == null) {
 
                 continue;
             }
@@ -300,6 +309,40 @@ public class Schedule {
 
             return rule.check(this);
         }
+    }
+
+    public boolean isScheduleCorrect(Classes grade) {
+
+        ArrayList<Schedule> schedules = new ArrayList<>(Arrays.asList(DbScheduleDataModel.getSchedule(Classes.A),
+                DbScheduleDataModel.getSchedule(Classes.B), DbScheduleDataModel.getSchedule(Classes.C),
+                DbScheduleDataModel.getSchedule(Classes.D)));
+
+        boolean result = true;
+        int indexOfCurrentGrade = switch(grade) {
+
+            case A -> 0;
+            case B -> 1;
+            case D -> 2;
+            case C -> 3;
+        };
+
+        for (Schedule schedule : schedules) {
+
+            if (schedule.equals(schedules.get(indexOfCurrentGrade))) {
+
+                continue;
+            }
+
+            for (int i = 0; i < schedule.getLessonArray().length; i++) {
+
+                for (int j = 0; j < schedule.getLessonArray()[i].length; j++) {
+
+                    result = result && (this.lessonArray[i][j] == null || schedule.lessonArray[i][j] == null || !this.lessonArray[i][j].isCross(schedule.lessonArray[i][j]));
+                }
+            }
+        }
+
+        return result;
     }
 
     public Lesson[][] getLessonArray() {

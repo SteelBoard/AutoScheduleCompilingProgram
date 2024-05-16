@@ -30,4 +30,10 @@ public enum Classes {
             default ->  null;
         };
     }
+
+    @Override
+    public String toString() {
+
+        return this.grade;
+    }
 }

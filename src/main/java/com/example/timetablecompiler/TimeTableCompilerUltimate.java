@@ -7,7 +7,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-// базу данных посмотреть
+// базу данных посмотреть (Готово)
+// кнопки в choiceBox (CompilerView)
+// css
 public class TimeTableCompilerUltimate extends Application {
 
     private static Stage stage;

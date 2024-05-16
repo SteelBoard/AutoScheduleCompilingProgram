@@ -11,34 +11,18 @@
             <Button onAction="#clickToCompileRules" text="Добавить правила" />
             <Button onAction="#clickToDeleteRules" text="Удалить текущие правила"/>
         </VBox>
-        <VBox spacing="5">
-            <Label text="Составить для:"/>
-            <Button onAction="#clickToGenerateForA" text="10А"/>
-            <Button text="10Б"/>
-            <Button text="10В"/>
-            <Button text="10Г"/>
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Загрузить для:"/>
-            <Button onAction="#clickToLoadForA" text="10А"/>
-            <Button onAction="#clickToLoadForB" text="10Б"/>
-            <Button onAction="#clickToLoadForC" text="10В"/>
-            <Button onAction="#clickToLoadForD" text="10Г"/>
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Удалить для:"/>
-            <Button onAction="#clickToDeleteForA" text="10А"/>
-            <Button onAction="#clickToDeleteForB" text="10Б"/>
-            <Button onAction="#clickToDeleteForC" text="10В"/>
-            <Button onAction="#clickToDeleteForD" text="10Г"/>
-        </VBox>
-        <VBox spacing="5">
-            <Label text="Вывести текущее для:"/>
-            <Button onAction="#clickToOutputA" text="10A"/>
-            <Button onAction="#clickToOutputB" text="10Б"/>
-            <Button onAction="#clickToOutputC" text="10В"/>
-            <Button onAction="#clickToOutputD" text="10Г"/>
-        </VBox>
+        <HBox alignment="BOTTOM_CENTER" spacing="5" maxHeight="40">
+            <VBox alignment="CENTER">
+                <Label text="Выберите действие:"/>
+                <ChoiceBox fx:id="operationChoice"/>
+            </VBox>
+            <Label text="для" textAlignment="CENTER"/>
+            <VBox alignment="CENTER">
+                <Label text="Выберите класс:"/>
+                <ChoiceBox fx:id="gradeChoice"/>
+            </VBox>
+            <Button onAction="#clickToExecute" text="Выполнить"/>
+        </HBox>
     </FlowPane>
     <GridPane AnchorPane.bottomAnchor="0" stylesheets="@css/Schedule.css" styleClass="grid-pane" fx:id="gridPane">
         <columnConstraints>

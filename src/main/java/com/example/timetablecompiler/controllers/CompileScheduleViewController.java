@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +26,7 @@ public class CompileScheduleViewController implements Initializable {
 
     @FXML private GridPane gridPane;
     @FXML private Label numberOfRulesLabel;
+    @FXML private ChoiceBox<String> operationChoice, gradeChoice;
     private Stage rulesCompilerStage;
     private Schedule currentSchedule;
     private Boolean isRulesCompilerShowing;
@@ -32,6 +34,14 @@ public class CompileScheduleViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        gradeChoice.getItems().add("<Не выбрано>");
+        gradeChoice.getItems().addAll(Classes.A.getGrade(), Classes.B.getGrade(), Classes.C.getGrade(), Classes.D.getGrade());
+        gradeChoice.setValue("<Не выбрано>");
+
+        operationChoice.getItems().addAll("<Не выбрано>", "Составить", "Загрузить", "Удалить", "Вывести текущее");
+        operationChoice.setValue("<Не выбрано>");
+
 
         isRulesCompilerShowing = false;
         addWeekdays();
@@ -123,15 +133,20 @@ public class CompileScheduleViewController implements Initializable {
         alert.setHeaderText("Не удалось сгенерировать расписание.\nИзмените правила или попробуйте ещё раз.");
         alert.showAndWait();
     }
-
-    private void createNullCurrentScheduleAlert() {
+    private void createNotChoosedAlert() {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Неудачная попытка");
-        alert.setHeaderText("Для добавления факультатива необходимо \nсгенерировать расписание.");
+        alert.setHeaderText("Выберите все поля и попробуйте ещё раз.");
         alert.showAndWait();
     }
+    private void createCantLoadAlert() {
 
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Неудачная попытка");
+        alert.setHeaderText("Невозможно загрузить расписания для данного класса из-за пересечения уроков.\nПопробуйте сгенерировать для данного класса или загрузить для другого.");
+        alert.showAndWait();
+    }
     public void updateNumberOfRules() {
 
         numberOfRulesLabel.setText("Добавлено правил: " + rules.size());
@@ -149,103 +164,66 @@ public class CompileScheduleViewController implements Initializable {
         return this.currentSchedule;
     }
 
+
     @FXML
-    private void clickToGenerateSchedule() {
+    private void clickToExecute() {
 
-        if (currentSchedule != null) {
+        if (operationChoice.getValue().equals("<Не выбрано>") || gradeChoice.getValue().equals("<Не выбрано>")) {
 
-            deleteCurrentSchedule();
-        }
-        currentSchedule = Schedule.generateRandom(rules);
-        if (currentSchedule == null) {
-
-            createNullGeneratedScheduleAlert();
-        }
-        else {
-
-            outputSchedule(currentSchedule);
-        }
-    }
-    @FXML
-    private void clickToGenerateForA() {
-
-        if (currentSchedule != null) {
-
-            deleteCurrentSchedule();
-        }
-        currentSchedule = Schedule.generate(rules, Classes.A);
-        if (currentSchedule == null) {
-
-            createNullGeneratedScheduleAlert();
-        }
-        else {
-
-            outputSchedule(currentSchedule);
-        }
-    }
-    @FXML
-    private void clickToLoadForA() {
-
-        if (currentSchedule == null) {
-
-            return;
+            createNotChoosedAlert();
         }
 
-        DbScheduleDataModel.deleteSchedule(Classes.A);
-        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.A);
-    }
-    @FXML
-    private void clickToLoadForB() {
+        Classes currentGrade = Classes.getGradeByString(gradeChoice.getValue());
 
-        if (currentSchedule == null) {
+        switch(operationChoice.getValue()) {
 
-            return;
+            case "Составить" -> {
+
+                if (currentSchedule != null) {
+
+                    deleteCurrentSchedule();
+                }
+                currentSchedule = Schedule.generate(rules, currentGrade);
+                if (currentSchedule == null) {
+
+                    createNullGeneratedScheduleAlert();
+                }
+                else {
+
+                    outputSchedule(currentSchedule);
+                }
+            }
+            case "Загрузить" -> {
+
+                if (currentSchedule == null) {
+
+                    return;
+                }
+
+                if (!currentSchedule.isScheduleCorrect(currentGrade)) {
+
+                    createCantLoadAlert();
+                    return;
+                }
+
+                DbScheduleDataModel.deleteSchedule(currentGrade);
+                DbScheduleDataModel.insertSchedule(currentSchedule, currentGrade);
+            }
+            case "Удалить" -> {
+
+                DbScheduleDataModel.deleteSchedule(currentGrade);
+            }
+            case "Вывести текущее" -> {
+
+                if (currentSchedule != null) {
+
+                    deleteCurrentSchedule();
+                }
+                currentSchedule = DbScheduleDataModel.getSchedule(currentGrade);
+                outputSchedule(currentSchedule);
+            }
         }
 
-        DbScheduleDataModel.deleteSchedule(Classes.B);
-        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.B);
-    }
-    @FXML
-    private void clickToLoadForC() {
-
-        if (currentSchedule == null) {
-
-            return;
-        }
-
-        DbScheduleDataModel.deleteSchedule(Classes.C);
-        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.C);
-    }
-    @FXML
-    private void clickToLoadForD() {
-
-        if (currentSchedule == null) {
-
-            return;
-        }
-
-        DbScheduleDataModel.deleteSchedule(Classes.D);
-        DbScheduleDataModel.insertSchedule(currentSchedule, Classes.D);
-    }
-    @FXML
-    private void clickToDeleteForA() {
-
-        DbScheduleDataModel.deleteSchedule(Classes.A);
-    }
-    @FXML
-    private void clickToDeleteForB() {
-
-        DbScheduleDataModel.deleteSchedule(Classes.B);
-    }
-    @FXML
-    private void clickToDeleteForC() {
-
-        DbScheduleDataModel.deleteSchedule(Classes.C);
-    }
-    @FXML
-    private void clickToDeleteForD() {
-
-        DbScheduleDataModel.deleteSchedule(Classes.D);
     }
     @FXML
     private void clickToCompileRules() {
@@ -266,45 +244,5 @@ public class CompileScheduleViewController implements Initializable {
 
         rules.clear();
         updateNumberOfRules();
-    }
-    @FXML
-    private void clickToOutputA() {
-
-        if (currentSchedule != null) {
-
-            deleteCurrentSchedule();
-        }
-        currentSchedule = DbScheduleDataModel.getSchedule(Classes.A);
-        outputSchedule(currentSchedule);
-    }
-    @FXML
-    private void clickToOutputC() {
-
-        if (currentSchedule != null) {
-
-            deleteCurrentSchedule();
-        }
-        currentSchedule = DbScheduleDataModel.getSchedule(Classes.C);
-        outputSchedule(currentSchedule);
-    }
-    @FXML
-    private void clickToOutputD() {
-
-        if (currentSchedule != null) {
-
-            deleteCurrentSchedule();
-        }
-        currentSchedule = DbScheduleDataModel.getSchedule(Classes.D);
-        outputSchedule(currentSchedule);
-    }
-    @FXML
-    private void clickToOutputB() {
-
-        if (currentSchedule != null) {
-
-            deleteCurrentSchedule();
-        }
-        currentSchedule = DbScheduleDataModel.getSchedule(Classes.B);
-        outputSchedule(currentSchedule);
     }
 }

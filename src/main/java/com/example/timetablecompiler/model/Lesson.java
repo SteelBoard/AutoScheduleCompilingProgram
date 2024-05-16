@@ -59,4 +59,9 @@ public class Lesson {
                 this.classroom.equals(otherLesson.classroom) &&
                 this.teacher.equals(otherLesson.teacher);
     }
+
+    public boolean isCross(Lesson otherLesson) {
+
+        return this.subject.equals(otherLesson.getSubject()) || this.teacher.equals(otherLesson.getTeacher());
+    }
 }
