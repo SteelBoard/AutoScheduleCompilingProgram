@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainPane" minHeight="612" minWidth="1024" stylesheets="@css/MainStyle.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17.0.2-ea" fx:controller="com.example.timetablecompiler.controllers.MainViewController">
+<AnchorPane fx:id="mainPane" minHeight="612" minWidth="1019" stylesheets="@css/MainStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.MainViewController">
     <AnchorPane>
         <VBox fx:id="buttons" styleClass="container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Button onAction="#clickToSeeSchedule" text="Просмотр расписания" VBox.vgrow="ALWAYS" />
@@ -13,10 +13,10 @@
             <Button onAction="#clickToLogOut" text="Выйти из аккаунта" />
             <Button onAction="#clickToQuit" text="Выйти из программы" />
         </VBox>
-        <Separator orientation="VERTICAL" minHeight="600" AnchorPane.leftAnchor="155"/>
+        <Separator styleClass="custom-separator" minHeight="600" orientation="VERTICAL" prefHeight="612.0" prefWidth="6.0" AnchorPane.leftAnchor="155" />
     </AnchorPane>
 
-    <AnchorPane fx:id="framePane" layoutX="164.0" prefHeight="600.0" prefWidth="862.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+    <AnchorPane fx:id="framePane" layoutX="164.0" prefHeight="600.0" prefWidth="862.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
         <padding>
             <Insets left="10" />
         </padding>

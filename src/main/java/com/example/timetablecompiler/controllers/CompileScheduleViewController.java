@@ -13,10 +13,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -104,6 +107,13 @@ public class CompileScheduleViewController implements Initializable {
         try {
 
             rulesCompilerStage = new Stage();
+            rulesCompilerStage.setResizable(false);
+            rulesCompilerStage.setTitle("Rule Compiler");
+            try {
+
+                rulesCompilerStage.getIcons().add(new Image(new FileInputStream("Icon/icon.ico")));
+            }
+            catch (IOException ex) {}
             FXMLLoader loader = new FXMLLoader(TimeTableCompilerUltimate.class.getResource(Views.RULECOMPILE.getFileName()));
             rulesCompilerStage.setScene(new Scene(loader.load()));
             RulesCompilerViewController controller = loader.getController();
@@ -137,7 +147,7 @@ public class CompileScheduleViewController implements Initializable {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Неудачная попытка");
-        alert.setHeaderText("Выберите все поля и попробуйте ещё раз.");
+        alert.setHeaderText("Выберите команду и класс и попробуйте ещё раз.");
         alert.showAndWait();
     }
     private void createCantLoadAlert() {
@@ -171,6 +181,7 @@ public class CompileScheduleViewController implements Initializable {
         if (operationChoice.getValue().equals("<Не выбрано>") || gradeChoice.getValue().equals("<Не выбрано>")) {
 
             createNotChoosedAlert();
+            return;
         }
 
         Classes currentGrade = Classes.getGradeByString(gradeChoice.getValue());

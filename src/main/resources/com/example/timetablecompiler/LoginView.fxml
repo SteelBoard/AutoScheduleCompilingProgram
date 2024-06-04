@@ -3,15 +3,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<FlowPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.LoginViewController" orientation="VERTICAL" minHeight="400" minWidth="400" alignment="CENTER">
-    <Label text="Вход"/>
+<FlowPane vgap="10" columnHalignment="CENTER" stylesheets="@css/LoginRegistrationStyle.css" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.LoginViewController" orientation="VERTICAL" minHeight="495" minWidth="480" alignment="CENTER">
+    <Label text="Вход" style="-fx-font-size:25"/>
     <Label fx:id="dataWrongLabel"/>
-    <Label text="Логин"/>
-    <TextField fx:id="loginField"/>
-    <Label text="Пароль"/>
-    <PasswordField fx:id="passwordField"/>
-    <Button text="Войти" onAction="#clickToLogin"/>
-    <Label text="Нет аккаунта?"/>
-    <Hyperlink text="Зарегистрироваться" onAction="#clickToRegistrationWindow"/>
-    <Button onAction="#clickToQuit" text="Выйти из приложения"/>
+    <VBox>
+        <Label text="Логин"/>
+        <TextField fx:id="loginField"/>
+    </VBox>
+    <VBox>
+        <Label text="Пароль"/>
+        <PasswordField fx:id="passwordField"/>
+    </VBox>
+    <Button text="Войти" onAction="#clickToLogin" style="-fx-min-width:100px"/>
+    <VBox>
+        <Label text="Нет аккаунта?"/>
+        <Hyperlink text="Зарегистрироваться" onAction="#clickToRegistrationWindow"/>
+        <Button onAction="#clickToQuit" text="Выйти из приложения"/>
+        <Hyperlink text="О программе" onAction="#clickToOpenInfo"/>
+    </VBox>
 </FlowPane>

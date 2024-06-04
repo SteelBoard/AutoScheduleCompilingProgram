@@ -1,3 +1,45 @@
+.choice-box {
+    -fx-background-color: #f0f0f0; /* Фон */
+    -fx-border-color: #cccccc; /* Цвет границы */
+    -fx-border-radius: 5; /* Скругление углов */
+    -fx-padding: 5; /* Отступы */
+    -fx-min-width:30;
+}
+
+.choice-box .label {
+    -fx-text-fill: #333333; /* Цвет текста */
+}
+
+.choice-box .context-menu {
+    -fx-background-color: #f0f0f0; /* Фон контекстного меню */
+    -fx-border-color: #cccccc; /* Цвет границы контекстного меню */
+}
+
+.choice-box .menu-item:focused {
+    -fx-background-color: #e0e0e0; /* Цвет фона выбранного пункта */
+}
+
+.choice-box .arrow,
+.choice-box .arrow-button {
+    -fx-background-color: #cccccc; /* Цвет фона стрелки */
+}
+
+.choice-box .list-view {
+    -fx-background-color: #f0f0f0; /* Фон списка */
+    -fx-border-color: #cccccc; /* Цвет границы списка */
+}
+
+.choice-box .list-cell {
+    -fx-background-color: #f0f0f0; /* Фон ячейки списка */
+    -fx-text-fill: #333333; /* Цвет текста в ячейке списка */
+}
+
+.choice-box .list-cell:filled:selected:focused,
+.choice-box .list-cell:filled:selected {
+    -fx-background-color: #e0e0e0; /* Выбранный фоновый цвет ячейки списка */
+    -fx-text-fill: #000000; /* Выбранный цвет текста в ячейке списка */
+}
+
 .button {
 
     -fx-background-color: #DDDDDD;

@@ -6,6 +6,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane alignment="CENTER" xmlns="http://javafx.com/javafx">
-    <Label text="У вас нет доступа к этой функции"/>
+<GridPane alignment="CENTER" minWidth="840" minHeight="600" xmlns="http://javafx.com/javafx">
+    <Label alignment="CENTER" style="-fx-font-size: 27" text="У вас нет доступа к этой функции"/>
 </GridPane>

@@ -4,10 +4,20 @@ import com.example.timetablecompiler.TimeTableCompilerUltimate;
 import com.example.timetablecompiler.model.DbRegistrationLoginModel;
 import com.example.timetablecompiler.util.Views;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,7 +29,24 @@ public class LoginViewController implements Initializable {
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) { }
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        loginField.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+
+            if (newValue.length() > 25) {
+
+                loginField.setText(oldValue);
+            }
+        }));
+
+        passwordField.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+
+            if (newValue.length() > 25) {
+
+                passwordField.setText(oldValue);
+            }
+        }));
+    }
 
     @FXML
     private void clickToLogin() {
@@ -29,7 +56,7 @@ public class LoginViewController implements Initializable {
 
         if (login.isEmpty() || password.isEmpty()) {
 
-            dataWrongLabel.setText("Одно из полей пустое");
+            dataWrongLabel.setText("Поля пусты");
         }
         else if (!DbRegistrationLoginModel.isUserExist(login)) {
 
@@ -57,5 +84,11 @@ public class LoginViewController implements Initializable {
     private void clickToQuit() {
 
         TimeTableCompilerUltimate.getInstanceOfStage().close();
+    }
+
+    @FXML
+    private void clickToOpenInfo() {
+
+        TimeTableCompilerUltimate.openInfo();
     }
 }

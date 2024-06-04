@@ -5,7 +5,7 @@
 
 <AnchorPane stylesheets="@css/CompileScheduleStyle.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.CompileScheduleViewController"
     maxHeight="600" minHeight="600" minWidth="700">
-    <FlowPane hgap="7" AnchorPane.topAnchor="0" minWidth="900">
+    <FlowPane hgap="50" AnchorPane.topAnchor="0" minWidth="900" AnchorPane.leftAnchor="100">
         <VBox spacing="5">
             <Label fx:id="numberOfRulesLabel" text="Добавлено правил: 0"/>
             <Button onAction="#clickToCompileRules" text="Добавить правила" />
@@ -16,7 +16,7 @@
                 <Label text="Выберите действие:"/>
                 <ChoiceBox fx:id="operationChoice"/>
             </VBox>
-            <Label text="для" textAlignment="CENTER"/>
+            <Label text="для" textAlignment="CENTER" style="-fx-font-size:15px"/>
             <VBox alignment="CENTER">
                 <Label text="Выберите класс:"/>
                 <ChoiceBox fx:id="gradeChoice"/>

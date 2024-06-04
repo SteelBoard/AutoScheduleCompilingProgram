@@ -1,0 +1,48 @@
+.root {
+    -fx-background-color: #f0f0f0;
+    -fx-padding: 20;
+    -fx-alignment: center;
+}
+
+.label {
+    -fx-font-size: 18px;
+    -fx-text-fill: #333333;
+}
+
+.text-field, .password-field {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+    -fx-font-size: 16px;
+}
+
+.button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: #ffffff;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+    -fx-font-size:17px;
+}
+
+.button:hover {
+    -fx-background-color: #0056b3;
+}
+
+.hyperlink {
+    -fx-text-fill: #007bff;
+    -fx-underline: false;
+    -fx-font-size:15px;
+}
+
+.hyperlink:visited {
+    -fx-text-fill: #6610f2;
+}
+
+.hyperlink:hover {
+    -fx-text-fill: #0056b3;
+}
+
+.hyperlink:active {
+    -fx-text-fill: #0056b3;
+}

@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane style="-fx-font-size: 16px" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.InformationViewController" prefHeight="400.0" prefWidth="600.0" minHeight="600" minWidth="700">
-    <FlowPane AnchorPane.leftAnchor="0" orientation="VERTICAL">
-        <Label text="Выберите предмет"/>
-        <ChoiceBox fx:id="subjectChoice"/>
+<AnchorPane minHeight="600" minWidth="700" prefHeight="400.0" prefWidth="600.0" style="-fx-font-size:14px" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.timetablecompiler.controllers.InformationViewController">
+    <FlowPane orientation="VERTICAL" AnchorPane.leftAnchor="0">
+        <Label text="Поиск по предмету" />
+        <ChoiceBox fx:id="subjectChoice" />
     </FlowPane>
-    <FlowPane vgap="10" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="70" orientation="VERTICAL">
-        <Label text="Предмет"/>
+    <FlowPane orientation="VERTICAL" prefHeight="198.0" prefWidth="500.0" vgap="10" AnchorPane.leftAnchor="0" AnchorPane.topAnchor="70">
+        <Label text="Предмет" />
         <VBox>
-            <Label fx:id="subjectLabel"/>
-            <Separator minWidth="500"/>
+            <Label fx:id="ss_subjectLabel" />
+            <Separator minWidth="500" />
         </VBox>
-        <Label text="Кабинет"/>
+        <Label text="Кабинет" />
         <VBox>
-            <Label fx:id="classroomLabel"/>
-            <Separator minWidth="500"/>
+            <Label fx:id="ss_classroomLabel" />
+            <Separator minWidth="500" />
         </VBox>
-        <Label text="Преподаватели"/>
+        <Label text="Преподаватели" />
         <VBox>
-            <Label fx:id="teachersLabel"/>
-            <Separator minWidth="500"/>
+            <Label fx:id="ss_teachersLabel" />
+            <Separator minWidth="500" />
+        </VBox>
+    </FlowPane>
+    <Separator layoutY="300.0" minWidth="700.0" prefHeight="68.0" prefWidth="948.0" />
+    <FlowPane layoutY="340.0" orientation="VERTICAL" prefHeight="68.0" prefWidth="206.0" AnchorPane.bottomAnchor="192.0">
+        <Label text="Поиск по преподавателю" />
+        <ChoiceBox fx:id="teacherChoice" />
+    </FlowPane>
+    <FlowPane layoutY="414.0" orientation="VERTICAL" prefHeight="139.0" prefWidth="500.0" vgap="10" AnchorPane.bottomAnchor="46.799999999999955">
+        <Label text="Преподаватель" />
+        <VBox>
+            <Label fx:id="ts_teacherLabel" />
+            <Separator minWidth="500" />
+        </VBox>
+        <Label text="Предметы" />
+        <VBox>
+            <Label fx:id="ts_subjectsLabel" />
+            <Separator minWidth="500" />
         </VBox>
     </FlowPane>
 </AnchorPane>

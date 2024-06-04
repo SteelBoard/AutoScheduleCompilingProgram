@@ -5,35 +5,35 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<AnchorPane stylesheets="@css/CompileScheduleStyle.css" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.RulesCompilerViewController">
+    <GridPane  AnchorPane.leftAnchor="10" AnchorPane.topAnchor="10" fx:id="gridPane" vgap="5" hgap="5"
+              prefHeight="550" prefWidth="750">
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
 
-<GridPane fx:id="gridPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.timetablecompiler.controllers.RulesCompilerViewController"
-          prefHeight="600" prefWidth="600" alignment="CENTER">
-    <rowConstraints>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-        <RowConstraints/>
-    </rowConstraints>
-
-    <ChoiceBox GridPane.rowIndex="0"/>
-    <ChoiceBox GridPane.rowIndex="1"/>
-    <ChoiceBox GridPane.rowIndex="2"/>
-    <ChoiceBox GridPane.rowIndex="3"/>
-    <ChoiceBox GridPane.rowIndex="4"/>
-    <ChoiceBox GridPane.rowIndex="5"/>
-    <ChoiceBox GridPane.rowIndex="6"/>
-    <ChoiceBox GridPane.rowIndex="7"/>
-    <ChoiceBox GridPane.rowIndex="8"/>
-    <ChoiceBox GridPane.rowIndex="9"/>
-    <Label fx:id="wrongDataLabel" GridPane.rowIndex="10"/>
-    <Button onAction="#clickToSaveRules" text="Сохранить" GridPane.rowIndex="11"/>
-
-</GridPane>
+        <ChoiceBox GridPane.rowIndex="0"/>
+        <ChoiceBox GridPane.rowIndex="1"/>
+        <ChoiceBox GridPane.rowIndex="2"/>
+        <ChoiceBox GridPane.rowIndex="3"/>
+        <ChoiceBox GridPane.rowIndex="4"/>
+        <ChoiceBox GridPane.rowIndex="5"/>
+        <ChoiceBox GridPane.rowIndex="6"/>
+        <ChoiceBox GridPane.rowIndex="7"/>
+        <ChoiceBox GridPane.rowIndex="8"/>
+        <ChoiceBox GridPane.rowIndex="9"/>
+    </GridPane>
+    <VBox AnchorPane.bottomAnchor="10" AnchorPane.leftAnchor="10">
+        <Label fx:id="wrongDataLabel"/>
+        <Button onAction="#clickToSaveRules" text="Сохранить" />
+    </VBox>
+</AnchorPane>

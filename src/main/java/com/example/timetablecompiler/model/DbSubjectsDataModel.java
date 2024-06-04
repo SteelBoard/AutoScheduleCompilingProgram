@@ -9,32 +9,6 @@ import java.util.HashMap;
 
 public class DbSubjectsDataModel {
 
-    public static HashMap<String, String> getSubjectWithTeachers() {
-
-        try (var connection = DbConnectionManager.open();
-             PreparedStatement statement = connection.prepareStatement("""
-                     SELECT t2.subject, t1.name
-                     FROM teachers t1, teacher_subject t2
-                     WHERE t1.id = t2.teacher_id
-                     GROUP BY t2.subject, t1.name
-                     """)) {
-
-            ResultSet resultSet = statement.executeQuery();
-            HashMap<String, String> subjectTeacherArray = new HashMap<>();
-
-            while (resultSet.next()) {
-
-                subjectTeacherArray.put(resultSet.getString("subject"), resultSet.getString("name"));
-            }
-
-            return subjectTeacherArray;
-        }
-        catch (SQLException ex) {
-
-            throw new RuntimeException();
-        }
-    }
-
     public static HashMap<String, Integer> getQuantityOfSubjects() {
 
         try (var connection = DbConnectionManager.open();
@@ -56,7 +30,7 @@ public class DbSubjectsDataModel {
         }
     }
 
-    public static HashMap<String, ArrayList<String>> getTeachersWithSubjects() {
+    public static HashMap<String, ArrayList<String>> getSubjectsWithTeachers() {
 
         try (var connection = DbConnectionManager.open();
              PreparedStatement statement = connection.prepareStatement("""
@@ -100,6 +74,36 @@ public class DbSubjectsDataModel {
             }
 
             return subjects_classrooms;
+        }
+        catch (SQLException ex) {
+
+            throw new RuntimeException();
+        }
+    }
+
+    public static HashMap<String, ArrayList<String>> getTeachersWithSubjects() {
+
+        try (var connection = DbConnectionManager.open();
+             PreparedStatement statement = connection.prepareStatement("""
+                     SELECT t2.subject, t1.name
+                     FROM teachers t1, teacher_subject t2
+                     WHERE t1.id = t2.teacher_id
+                     GROUP BY t2.subject, t1.name
+                     """)) {
+
+            ResultSet resultSet = statement.executeQuery();
+            HashMap<String, ArrayList<String>> teacherSubjectsMap = new HashMap<>();
+
+            while (resultSet.next()) {
+
+                if (!teacherSubjectsMap.containsKey(resultSet.getString("name"))) {
+
+                    teacherSubjectsMap.put(resultSet.getString("name"), new ArrayList<>());
+                }
+                teacherSubjectsMap.get(resultSet.getString("name")).add(resultSet.getString("subject"));
+            }
+
+            return teacherSubjectsMap;
         }
         catch (SQLException ex) {
 

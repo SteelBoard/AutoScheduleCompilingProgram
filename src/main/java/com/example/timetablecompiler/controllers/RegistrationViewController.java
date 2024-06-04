@@ -28,7 +28,7 @@ public class RegistrationViewController implements Initializable {
 
         if (login.isEmpty() || password.isEmpty()) {
 
-            dataWrongLabel.setText("Одно из полей пустое");
+            dataWrongLabel.setText("Поля пусты");
         }
         else if (DbRegistrationLoginModel.isUserExist(login)) {
 
@@ -52,5 +52,11 @@ public class RegistrationViewController implements Initializable {
     private void clickToQuit() {
 
         TimeTableCompilerUltimate.getInstanceOfStage().close();
+    }
+
+    @FXML
+    private void clickToOpenInfo() {
+
+        TimeTableCompilerUltimate.openInfo();
     }
 }

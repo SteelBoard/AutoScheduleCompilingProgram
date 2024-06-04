@@ -25,8 +25,14 @@ public class SeeingScheduleViewController implements Initializable {
 
         addWeekdays();
 
-        classChoice.getItems().addAll("10А", "10Б", "10В", "10Г");
+        classChoice.getItems().addAll("<Не выбрано>", "10А", "10Б", "10В", "10Г");
+        classChoice.setValue("<Не выбрано>");
         classChoice.valueProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (newValue.equals("<Не выбрано>")) {
+
+                deleteCurrentSchedule();
+                return;
+            }
 
             currentSchedule = DbScheduleDataModel.getSchedule(Classes.getGradeByString(newValue));
             outputSchedule();
